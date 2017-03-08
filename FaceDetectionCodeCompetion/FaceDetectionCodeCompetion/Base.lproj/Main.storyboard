@@ -228,23 +228,34 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Willkommen in der Secret Area" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bga-A1-OPk">
-                                <rect key="frame" x="70" y="323" width="235" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Deine Gedanken sind frei... nun sind sie auch noch geschützt." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bga-A1-OPk">
+                                <rect key="frame" x="16" y="36" width="343" height="50.5"/>
+                                <fontDescription key="fontDescription" type="system" weight="light" pointSize="21"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" text="Platz für deine Gedanken." textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Oyl-Og-jhP">
+                                <rect key="frame" x="16" y="111" width="343" height="531.5"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="0.38823529410000002" green="0.50980392159999999" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="bga-A1-OPk" firstAttribute="centerY" secondItem="ChW-In-h6s" secondAttribute="centerY" id="fxu-sO-8W2"/>
-                            <constraint firstItem="bga-A1-OPk" firstAttribute="centerX" secondItem="ChW-In-h6s" secondAttribute="centerX" id="hX3-JC-ZHB"/>
+                            <constraint firstItem="buC-1T-cSW" firstAttribute="top" secondItem="Oyl-Og-jhP" secondAttribute="bottom" constant="24.5" id="Js8-9K-mNN"/>
+                            <constraint firstItem="bga-A1-OPk" firstAttribute="top" secondItem="fGt-CY-1Fo" secondAttribute="bottom" constant="16" id="NIk-ku-2UR"/>
+                            <constraint firstItem="Oyl-Og-jhP" firstAttribute="leading" secondItem="ChW-In-h6s" secondAttribute="leading" constant="16" id="OlG-p5-bgO"/>
+                            <constraint firstItem="Oyl-Og-jhP" firstAttribute="top" secondItem="bga-A1-OPk" secondAttribute="bottom" constant="24.5" id="SKv-AD-g7f"/>
+                            <constraint firstAttribute="trailing" secondItem="bga-A1-OPk" secondAttribute="trailing" constant="16" id="bBe-gC-rw0"/>
+                            <constraint firstAttribute="trailing" secondItem="Oyl-Og-jhP" secondAttribute="trailing" constant="16" id="o1i-fP-2tQ"/>
+                            <constraint firstItem="bga-A1-OPk" firstAttribute="leading" secondItem="ChW-In-h6s" secondAttribute="leading" constant="16" id="yqa-yR-GeR"/>
                         </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yJk-Gy-1cx" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1839" y="39"/>
+            <point key="canvasLocation" x="1837.5999999999999" y="38.23088455772114"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="4uB-vJ-yny">
