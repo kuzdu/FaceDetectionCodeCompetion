@@ -4,6 +4,11 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>EZLoadingActivity.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-FaceDetectionCodeCompetion.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -16,6 +21,22 @@
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
-	<dict/>
+	<dict>
+		<key>17F119308477A2DCF723ACDBD02BA583</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>B68B30BAA59D3C581E36B229F5026576</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>C11E69CEF38843FAC41F39A958D99FF4</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+	</dict>
 </dict>
 </plist>

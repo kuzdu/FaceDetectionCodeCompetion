@@ -1,12 +1,15 @@
 PODS:
+  - EZLoadingActivity (1.01)
   - ProjectOxfordFace (1.2.0)
 
 DEPENDENCIES:
+  - EZLoadingActivity
   - ProjectOxfordFace
 
 SPEC CHECKSUMS:
+  EZLoadingActivity: edd7e387e5197b116ce2cccb3fd747ababc2a510
   ProjectOxfordFace: eeb628b3d91ffe4f8fcec151abf26941975479d3
 
-PODFILE CHECKSUM: 7ba04aa7985401745fe71eb7f9fd0a5146953308
+PODFILE CHECKSUM: 50287ca1b0e7f8c86769614a18276d8a5b488de3
 
 COCOAPODS: 1.2.0

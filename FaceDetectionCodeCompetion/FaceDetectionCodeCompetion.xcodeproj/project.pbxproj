@@ -8,12 +8,16 @@
 
 /* Begin PBXBuildFile section */
 		A44D14661E6DF354006DB65D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A44D14651E6DF354006DB65D /* AppDelegate.swift */; };
-		A44D14681E6DF354006DB65D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A44D14671E6DF354006DB65D /* ViewController.swift */; };
+		A44D14681E6DF354006DB65D /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A44D14671E6DF354006DB65D /* CameraViewController.swift */; };
 		A44D146B1E6DF354006DB65D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A44D14691E6DF354006DB65D /* Main.storyboard */; };
 		A44D146D1E6DF354006DB65D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A44D146C1E6DF354006DB65D /* Assets.xcassets */; };
 		A44D14701E6DF354006DB65D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A44D146E1E6DF354006DB65D /* LaunchScreen.storyboard */; };
 		A44D147B1E6DF355006DB65D /* FaceDetectionCodeCompetionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A44D147A1E6DF355006DB65D /* FaceDetectionCodeCompetionTests.swift */; };
 		A44D14861E6DF355006DB65D /* FaceDetectionCodeCompetionUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A44D14851E6DF355006DB65D /* FaceDetectionCodeCompetionUITests.swift */; };
+		A44D14971E6F56C9006DB65D /* StartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A44D14961E6F56C9006DB65D /* StartViewController.swift */; };
+		A44D149A1E6F7410006DB65D /* SecretAreaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A44D14991E6F7410006DB65D /* SecretAreaViewController.swift */; };
+		A44D149C1E7089FD006DB65D /* MessageScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A44D149B1E7089FD006DB65D /* MessageScreenViewController.swift */; };
+		A44D149F1E708AFB006DB65D /* Tools.swift in Sources */ = {isa = PBXBuildFile; fileRef = A44D149E1E708AFB006DB65D /* Tools.swift */; };
 		B8BE607633EDC7BCB6522265 /* Pods_FaceDetectionCodeCompetion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAC28B8739497AE4DC36E02C /* Pods_FaceDetectionCodeCompetion.framework */; };
 /* End PBXBuildFile section */
 
@@ -38,7 +42,7 @@
 		1EABB4D22E7796B8C4207332 /* Pods-FaceDetectionCodeCompetion.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FaceDetectionCodeCompetion.release.xcconfig"; path = "Pods/Target Support Files/Pods-FaceDetectionCodeCompetion/Pods-FaceDetectionCodeCompetion.release.xcconfig"; sourceTree = "<group>"; };
 		A44D14621E6DF354006DB65D /* FaceDetectionCodeCompetion.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FaceDetectionCodeCompetion.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A44D14651E6DF354006DB65D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		A44D14671E6DF354006DB65D /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		A44D14671E6DF354006DB65D /* CameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
 		A44D146A1E6DF354006DB65D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		A44D146C1E6DF354006DB65D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A44D146F1E6DF354006DB65D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -50,6 +54,10 @@
 		A44D14851E6DF355006DB65D /* FaceDetectionCodeCompetionUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceDetectionCodeCompetionUITests.swift; sourceTree = "<group>"; };
 		A44D14871E6DF355006DB65D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A44D14931E6DF65C006DB65D /* FaceDetectionCodeCompetion-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "FaceDetectionCodeCompetion-Bridging-Header.h"; sourceTree = "<group>"; };
+		A44D14961E6F56C9006DB65D /* StartViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StartViewController.swift; sourceTree = "<group>"; };
+		A44D14991E6F7410006DB65D /* SecretAreaViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecretAreaViewController.swift; sourceTree = "<group>"; };
+		A44D149B1E7089FD006DB65D /* MessageScreenViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageScreenViewController.swift; sourceTree = "<group>"; };
+		A44D149E1E708AFB006DB65D /* Tools.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tools.swift; sourceTree = "<group>"; };
 		C54E9E8F90FCB737AB2605C4 /* Pods-FaceDetectionCodeCompetion.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FaceDetectionCodeCompetion.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FaceDetectionCodeCompetion/Pods-FaceDetectionCodeCompetion.debug.xcconfig"; sourceTree = "<group>"; };
 		FAC28B8739497AE4DC36E02C /* Pods_FaceDetectionCodeCompetion.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FaceDetectionCodeCompetion.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -106,8 +114,9 @@
 		A44D14641E6DF354006DB65D /* FaceDetectionCodeCompetion */ = {
 			isa = PBXGroup;
 			children = (
+				A44D149D1E708AE9006DB65D /* Tools */,
+				A44D14981E6F56D8006DB65D /* ViewController */,
 				A44D14651E6DF354006DB65D /* AppDelegate.swift */,
-				A44D14671E6DF354006DB65D /* ViewController.swift */,
 				A44D14691E6DF354006DB65D /* Main.storyboard */,
 				A44D146C1E6DF354006DB65D /* Assets.xcassets */,
 				A44D146E1E6DF354006DB65D /* LaunchScreen.storyboard */,
@@ -132,6 +141,25 @@
 				A44D14871E6DF355006DB65D /* Info.plist */,
 			);
 			path = FaceDetectionCodeCompetionUITests;
+			sourceTree = "<group>";
+		};
+		A44D14981E6F56D8006DB65D /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				A44D14671E6DF354006DB65D /* CameraViewController.swift */,
+				A44D14961E6F56C9006DB65D /* StartViewController.swift */,
+				A44D14991E6F7410006DB65D /* SecretAreaViewController.swift */,
+				A44D149B1E7089FD006DB65D /* MessageScreenViewController.swift */,
+			);
+			name = ViewController;
+			sourceTree = "<group>";
+		};
+		A44D149D1E708AE9006DB65D /* Tools */ = {
+			isa = PBXGroup;
+			children = (
+				A44D149E1E708AFB006DB65D /* Tools.swift */,
+			);
+			name = Tools;
 			sourceTree = "<group>";
 		};
 		B4F7132AFC09B6C58FC59323 /* Pods */ = {
@@ -340,8 +368,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A44D14681E6DF354006DB65D /* ViewController.swift in Sources */,
+				A44D14971E6F56C9006DB65D /* StartViewController.swift in Sources */,
+				A44D14681E6DF354006DB65D /* CameraViewController.swift in Sources */,
+				A44D149C1E7089FD006DB65D /* MessageScreenViewController.swift in Sources */,
+				A44D149F1E708AFB006DB65D /* Tools.swift in Sources */,
 				A44D14661E6DF354006DB65D /* AppDelegate.swift in Sources */,
+				A44D149A1E6F7410006DB65D /* SecretAreaViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
