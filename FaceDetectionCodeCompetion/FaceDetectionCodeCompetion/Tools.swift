@@ -23,4 +23,13 @@ class Tools {
         childViewController.removeFromParentViewController()
     }
     
+    
+    static func showMessage(text: String, parentViewController: UIViewController) {
+        if let vc = parentViewController.storyboard?.instantiateViewController(withIdentifier: "MessageScreenViewController") as? MessageScreenViewController {
+            vc.text = text
+            Tools.displayContentController(partentViewController: parentViewController, childViewController: vc)
+        }
+    }
+    
+    
 }

@@ -12,11 +12,24 @@ import AVFoundation
 import EZLoadingActivity
 
 
-let microsoftFaceDetectionApiKey = "7a3bad27eb4d41849eb86bb8cf310c86"
 
 class CameraViewController: UIViewController {
     
+    //MARK: UI ELEMENTS
+    /** */
+    @IBOutlet weak var createdImageImageView: UIImageView!
+    @IBOutlet weak var isFirstVisitUnderstandInfoButton: UIButton!
+    @IBOutlet weak var isFirstVisitInfoLabel: UILabel!
+    @IBOutlet weak var isFirstVisitBackgroundView: UIView!
     
+    /** UI-Element where the preview of camera is */
+    @IBOutlet weak var cameraView: UIView!
+    @IBOutlet weak var authorizeUserButton: UIButton!
+    @IBOutlet weak var takeImageButton: UIButton!
+    @IBOutlet weak var dontTakeImageButton: UIButton!
+    
+    @IBOutlet weak var showCountOfAuthorizedImagesLabel: UILabel!
+    @IBOutlet weak var backButton: UIButton!
     //MARK: VARS
     //Microsoft Api
     let mpoFaceServiceClient = MPOFaceServiceClient(subscriptionKey: microsoftFaceDetectionApiKey)
@@ -24,69 +37,99 @@ class CameraViewController: UIViewController {
     //authorized user
     var userWantToLoginFaceIds:[String] = []
     
-    //faces of peope
-    var authorizedFaceIds: [String] = []
+    var isFirstVisitSoShowInformationView = true
     
     //camera
     let captureSession = AVCaptureSession()
     var captureDevice:AVCaptureDevice!
     var tookPhotoAutomatically = false
+    var temporarySavedImage:UIImage?
     
+    /**
+     three states
+     login = take image and login with that
+     authorisation = fill array with images
+     */
+    var state = "login"
+    
+    /** needs toogles */
     var loginUser = false
     var authorizeUser = false
     
-    var imageForImageView:UIImage?
-    var savedImage:UIImage?
     
-    @IBOutlet weak var createdImageImageView: UIImageView!
     
-    //UI-Element where the preview of camera is
-    @IBOutlet weak var cameraView: UIView!
-    @IBOutlet weak var authorizeUserButton: UIButton!
     
-    @IBOutlet weak var takeImageButton: UIButton!
+    //MARK: BUTTON ACTIONS
+    @IBAction func isFirstVisitUnderstandInfoButtonAction(_ sender: Any) {
+        isFirstVisitSoShowInformationView = false
+        isFirstVisitUnderstandInfoButton.isHidden = true
+        isFirstVisitInfoLabel.isHidden = true
+        isFirstVisitBackgroundView.isHidden = true
+    }
+    
+    @IBAction func backButtonAction(_ sender: Any) {
+        _ = self.navigationController?.popViewController(animated: true)
+    }
+    
     @IBAction func takeImageButtonAction(_ sender: Any) {
         
-        dontTakeImageButton.isHidden = true
-        takeImageButton.isHidden = true
-        createdImageImageView.isHidden = true
+        hideDecisionPanel()
+        
+        if let image = temporarySavedImage {
+            authorizeImageOfUser(image: image)
+        }
         
         EZLoadingActivity.show("Sichere Foto...📸", disableUI: true)
-        if let savedImage = savedImage {
-            authorizeImageOfUser(image: savedImage)
-        }
+        
     }
     
-    @IBOutlet weak var dontTakeImageButton: UIButton!
-    @IBAction func dontTakeImageButtonAction(_ sender: Any) {
-        savedImage = nil
-        
-        
-        createdImageImageView.isHidden = true
+    
+    func hideDecisionPanel() {
         dontTakeImageButton.isHidden = true
         takeImageButton.isHidden = true
+        createdImageImageView.isHidden = true
     }
     
+    func showCountOfAuthorizedImages() {
+        showCountOfAuthorizedImagesLabel.alpha = 1.0
+        showCountOfAuthorizedImagesLabel.isHidden = false
+        showCountOfAuthorizedImagesLabel.text = "\(authorizedImages.count)"
+        
+        
+        UIView.animate(withDuration: 1.5, animations: {
+            self.showCountOfAuthorizedImagesLabel.alpha = 0.0
+        }, completion: { (finished) in
+            self.showCountOfAuthorizedImagesLabel.isHidden = true
+            self.showCountOfAuthorizedImagesLabel.alpha = 1.0
+        })
+    }
+    
+    @IBAction func dontTakeImageButtonAction(_ sender: Any) {
+        hideFirstVisitInfoScreen()
+    }
     
     @IBAction func authorizeUserButtonAction(_ sender: Any) {
         
-        
-        if authorizedFaceIds.count > 0 {
+        if authorizedFaceIds.count > 4 && state == "login" {
             loginUser = true
             EZLoadingActivity.show("Kontrolliere Gesicht...🕵️", disableUI: true)
         } else {
             authorizeUser = true
         }
-        
     }
     
+    func hideFirstVisitInfoScreen() {
+        temporarySavedImage = nil
+        createdImageImageView.isHidden = true
+        dontTakeImageButton.isHidden = true
+        takeImageButton.isHidden = true
+    }
     
-    func showMessage(text: String) {
-        if let vc = self.storyboard?.instantiateViewController(withIdentifier: "MessageScreenViewController") as? MessageScreenViewController {
-            
-            vc.text = text
-            Tools.displayContentController(partentViewController: self, childViewController: vc)
-            
+    func showFirstVisitInfoScreen() {
+        if isFirstVisitSoShowInformationView {
+            isFirstVisitUnderstandInfoButton.isHidden = false
+            isFirstVisitInfoLabel.isHidden = false
+            isFirstVisitBackgroundView.isHidden = false
         }
     }
     
@@ -149,70 +192,85 @@ class CameraViewController: UIViewController {
                 }
             }
             
-            var text = ""
+            var responseMessage = ""
             if error != nil {
                 
-                text = "Ein unbekannter Fehler ist aufgetreten.🚀"
+                responseMessage = "Ein unbekannter Fehler ist aufgetreten.🚀"
                 if let error = error?.localizedDescription {
-                    text = error
+                    responseMessage = error
                 }
                 
-                self.showMessage(text: text)
+                Tools.showMessage(text: responseMessage, parentViewController: self)
             } else {
                 if detectFace == true {
                     self.checkUser()
                 } else {
-                    text = "Auf dem Foto wurde kein Gesicht erkannt.🙈"
+                    responseMessage = "Auf dem Foto wurde kein Gesicht erkannt.🙈"
                 }
             }
             EZLoadingActivity.hide()
             if !detectFace {
-                self.showMessage(text: text)
+                Tools.showMessage(text: responseMessage, parentViewController: self)
             }
         })
         
     }
     
+    func updateUI() {
+        if state == "login" {
+            showCountOfAuthorizedImages()
+            
+            if authorizedFaceIds.count > 4 {
+                
+                
+                self.authorizeUserButton.setTitle("Einloggen per Foto", for: .normal)
+                self.authorizeUserButton.setTitleColor(UIColor.white, for: .normal)
+                self.authorizeUserButton.backgroundColor = UIColor(red: CGFloat(99.0/255.0), green: CGFloat(130.0/255.0), blue: CGFloat(255.0/255.0), alpha: CGFloat(1))
+            }
+        }
+        
+    }
+    
     func authorizeImageOfUser(image: UIImage) {
         
-        let dataOfAuthorizedUser = UIImageJPEGRepresentation(image,1)
+        let imageToData = UIImageJPEGRepresentation(image,1)
         
-        mpoFaceServiceClient?.detect(with: dataOfAuthorizedUser, returnFaceId: true, returnFaceLandmarks: true, returnFaceAttributes: nil, completionBlock: { (faces, error) in
+        mpoFaceServiceClient?.detect(with: imageToData, returnFaceId: true, returnFaceLandmarks: true, returnFaceAttributes: nil, completionBlock: { (faces, error) in
             
             var detectFace = false
             //should always be just one
             if let faces = faces {
                 for face in faces {
-                    self.authorizedFaceIds.append(face.faceId)
+                    authorizedFaceIds.append(face.faceId)
+                    authorizedImages.append(image)
                     detectFace = true
                 }
             }
             
             
-            var text = ""
+            var responseMessage = ""
             if error != nil {
                 
-                text = "Ein unbekannter Fehler ist aufgetreten.🚀"
+                responseMessage = "Ein unbekannter Fehler ist aufgetreten.🚀"
                 if let error = error?.localizedDescription {
-                    text = error
+                    responseMessage = error
                 }
                 
-                self.showMessage(text: text)
+                Tools.showMessage(text: responseMessage, parentViewController: self)
             } else {
                 
                 
                 if detectFace == true {
-                    text = "Das Bild wurde gepspeichert und die ID erfolgreich hinterlegt. 🍯"
-                    self.authorizeUserButton.setTitle("Einloggen per Foto", for: .normal)
-                    self.authorizeUserButton.setTitleColor(UIColor.white, for: .normal)
-                   
-                    self.authorizeUserButton.backgroundColor = UIColor(red: CGFloat(99.0/255.0), green: CGFloat(130.0/255.0), blue: CGFloat(255.0/255.0), alpha: CGFloat(1))
+                    responseMessage = "Das Bild wurde gepspeichert und die ID erfolgreich hinterlegt. 🍯"
+                    
+                    self.updateUI()
+                    
                 } else {
-                    text = "Auf dem Foto wurde kein Gesicht erkannt.🙈"
+                    responseMessage = "Auf dem Foto wurde kein Gesicht erkannt.🙈"
                 }
             }
             EZLoadingActivity.hide()
-            self.showMessage(text: text)
+            Tools.showMessage(text: responseMessage, parentViewController: self)
         })
     }
     
@@ -221,34 +279,32 @@ class CameraViewController: UIViewController {
         mpoFaceServiceClient?.findSimilar(withFaceId: userWantToLoginFaceIds[userWantToLoginFaceIds.count-1], faceIds: authorizedFaceIds, completionBlock: { (similarFaces, error) in
             
             EZLoadingActivity.hide()
-            var needToShowMessage = true
-            var messageText = "Ein unbekannter Fehler ist aufgetreten. 🚀"
+            var findSimilarFace = false
+            var responseMessage = "Ein unbekannter Fehler ist aufgetreten. 🚀"
             
             if error != nil {
                 if let error = error {
-                    messageText = error.localizedDescription
+                    responseMessage = error.localizedDescription
                 }
             } else {
                 for similarFace in similarFaces! {
-                    
                     print("the confidence \(similarFace.confidence)")
                     
                     if Double(similarFace.confidence) > 0.8 {
-                        needToShowMessage = false
-                        
-                        if let vc = self.storyboard?.instantiateViewController(withIdentifier: "SecretAreaViewController") as? SecretAreaViewController {
-                            self.navigationController?.pushViewController(vc, animated: true)
-                        }
+                        findSimilarFace = true
                     } else {
-                        messageText = "Die Übereinstimmung reichte nicht, versuch es nochmal.😎 ... \nEin Passwort zuschicken geht nämlich auch nicht. 🙈"
+                        responseMessage = "Die Übereinstimmung reichte nicht, versuch es nochmal.😎 ... \nEin Passwort zuschicken geht nämlich nicht. 🙈"
                     }
                 }
             }
             
-            if needToShowMessage {
-                self.showMessage(text: messageText)
+            if findSimilarFace {
+                if let vc = self.storyboard?.instantiateViewController(withIdentifier: "SecretAreaViewController") as? SecretAreaViewController {
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }
+            } else {
+                Tools.showMessage(text: responseMessage, parentViewController: self)
             }
-            
         })
     }
     
@@ -260,12 +316,13 @@ extension CameraViewController : AVCaptureVideoDataOutputSampleBufferDelegate{
     
     func captureOutput(_ captureOutput: AVCaptureOutput!, didOutputSampleBuffer sampleBuffer: CMSampleBuffer!, from connection: AVCaptureConnection!) {
         
+        
         if authorizeUser {
             authorizeUser = false
             
             if let image = getImageFromSampleBuffer(buffer: sampleBuffer) {
                 
-                savedImage = image
+                temporarySavedImage = image
                 DispatchQueue.main.async {
                     self.dontTakeImageButton.isHidden = false
                     self.createdImageImageView.isHidden = false
@@ -320,6 +377,8 @@ extension CameraViewController : AVCaptureVideoDataOutputSampleBufferDelegate{
             }
         }
     }
+    
+    
 }
 
 
@@ -327,6 +386,14 @@ extension CameraViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.navigationBar.isHidden = true
+        print("state \(state)")
+        if state == "login" {
+            showFirstVisitInfoScreen()
+        } else {
+            hideFirstVisitInfoScreen()
+        }
+        
+        
         prepareCamera()
     }
     

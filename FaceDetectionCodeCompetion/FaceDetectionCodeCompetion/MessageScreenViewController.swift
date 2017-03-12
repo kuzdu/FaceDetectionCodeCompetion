@@ -21,7 +21,7 @@ class MessageScreenViewController: UIViewController {
     
     func closeViewAfterSeconds() {
         
-        let when = DispatchTime.now() + 2.5 // change 2 to desired number of seconds
+        let when = DispatchTime.now() + 1.5 
         DispatchQueue.main.asyncAfter(deadline: when) {
             // Your code with delay
             

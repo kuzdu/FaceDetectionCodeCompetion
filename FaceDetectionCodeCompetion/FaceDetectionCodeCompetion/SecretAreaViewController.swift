@@ -12,19 +12,19 @@ class SecretAreaViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationController?.navigationBar.topItem?.title = "🎸Deine Area🤘"
-        self.navigationController?.setNavigationBarHidden(false, animated: true)
-        
+    }
+    @IBAction func backButtonAction(_ sender: Any) {
+    
+        _ = self.navigationController?.popViewController(animated: true)
+    
     }
 
-    
-    override func viewDidAppear(_ animated: Bool) {
-        self.navigationController?.navigationBar.topItem?.title = "🎸Deine Area🤘"
-        self.navigationController?.setNavigationBarHidden(false, animated: true)
+    @IBAction func manageAuthorizedImagesButtonAction(_ sender: Any) {
+        
+        if let vc = storyboard?.instantiateViewController(withIdentifier: "ImageManagementViewController") as? ImageManagementViewController {
+            
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        self.navigationController?.navigationBar.topItem?.title = "🎸Deine Area🤘"
-        self.navigationController?.setNavigationBarHidden(false, animated: true)
-    }
+   
 }
