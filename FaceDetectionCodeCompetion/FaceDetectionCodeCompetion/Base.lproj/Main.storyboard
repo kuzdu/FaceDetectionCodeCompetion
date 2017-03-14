@@ -162,9 +162,14 @@
                                 <color key="textColor" red="0.99939942020000005" green="1" blue="0.96757063320000003" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YjP-6z-kmA">
-                                <rect key="frame" x="164" y="318" width="46" height="30"/>
-                                <state key="normal" title="Zurück"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YjP-6z-kmA">
+                                <rect key="frame" x="16" y="20" width="75" height="53"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="75" id="FPl-Ut-sLZ"/>
+                                    <constraint firstAttribute="height" constant="53" id="VzQ-WI-13D"/>
+                                </constraints>
+                                <color key="tintColor" red="0.99939942020000005" green="1" blue="0.96757063320000003" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal" image="ic_clear"/>
                                 <connections>
                                     <action selector="backButtonAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="fkK-BK-ERG"/>
                                 </connections>
@@ -175,6 +180,7 @@
                             <constraint firstItem="MzG-ey-QDy" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="3rf-Hl-ifE"/>
                             <constraint firstItem="kVn-k6-8hc" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="4D1-2a-UbL"/>
                             <constraint firstItem="6SA-VI-5cj" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="16" id="53q-LV-uL7"/>
+                            <constraint firstItem="YjP-6z-kmA" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="A53-Ow-zKZ"/>
                             <constraint firstAttribute="trailing" secondItem="k4e-DS-ac1" secondAttribute="trailing" constant="16" id="AoN-mD-Cvu"/>
                             <constraint firstAttribute="trailing" secondItem="kVn-k6-8hc" secondAttribute="trailing" id="DBP-38-3ET"/>
                             <constraint firstItem="tbi-Ho-R3G" firstAttribute="top" secondItem="kVn-k6-8hc" secondAttribute="bottom" id="GAd-Zp-sLY"/>
@@ -190,19 +196,18 @@
                             <constraint firstItem="tbi-Ho-R3G" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="S3g-0m-HY4"/>
                             <constraint firstAttribute="trailing" secondItem="MzG-ey-QDy" secondAttribute="trailing" id="XFb-Rj-MIB"/>
                             <constraint firstItem="k4e-DS-ac1" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="16" id="XUI-qI-DhS"/>
-                            <constraint firstItem="YjP-6z-kmA" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="16" id="Z8r-CP-AB4"/>
                             <constraint firstItem="MzG-ey-QDy" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="ZeE-EB-lCV"/>
                             <constraint firstItem="MBk-FT-TL5" firstAttribute="top" secondItem="k4e-DS-ac1" secondAttribute="bottom" constant="16" id="aVc-JS-HM3"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="MBk-FT-TL5" secondAttribute="bottom" id="chJ-uW-ga6"/>
                             <constraint firstItem="MBk-FT-TL5" firstAttribute="width" secondItem="03O-ox-cEO" secondAttribute="width" id="en1-NX-lqP"/>
                             <constraint firstAttribute="bottom" secondItem="LbZ-qh-Pf9" secondAttribute="bottom" id="gyY-eD-vMu"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="MzG-ey-QDy" secondAttribute="bottom" id="h05-bu-9Fn"/>
+                            <constraint firstItem="YjP-6z-kmA" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="16" id="i6X-ww-Swf"/>
                             <constraint firstAttribute="trailing" secondItem="MBk-FT-TL5" secondAttribute="trailing" id="npA-Nb-r7Q"/>
                             <constraint firstAttribute="trailing" secondItem="6SA-VI-5cj" secondAttribute="trailing" constant="16" id="nzs-yd-dob"/>
                             <constraint firstItem="LbZ-qh-Pf9" firstAttribute="top" secondItem="6SA-VI-5cj" secondAttribute="bottom" constant="16" id="ob7-cO-PkA"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="tbi-Ho-R3G" secondAttribute="bottom" id="qMf-fx-MYk"/>
                             <constraint firstItem="TgT-fB-RQj" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="rQv-sY-Lcg"/>
-                            <constraint firstItem="YjP-6z-kmA" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="16" id="sIO-iA-nrv"/>
                             <constraint firstAttribute="trailing" secondItem="LbZ-qh-Pf9" secondAttribute="trailing" id="veN-IS-rfv"/>
                             <constraint firstItem="k4e-DS-ac1" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="16" id="wR9-sS-aLd"/>
                             <constraint firstItem="03O-ox-cEO" firstAttribute="width" secondItem="tbi-Ho-R3G" secondAttribute="width" multiplier="0.5" id="wgH-pM-5gB"/>
@@ -391,7 +396,7 @@
                                         <rect key="frame" x="0.0" y="28" width="375" height="99"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Doh-E8-oJA" id="vpI-C2-vkb">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="98.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="98"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="5p4-Pf-zsp">
@@ -450,8 +455,8 @@
                                 <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iXR-pt-b7H">
-                                        <rect key="frame" x="8" y="17" width="47" height="10"/>
-                                        <state key="normal" title="zurück"/>
+                                        <rect key="frame" x="8" y="17" width="72" height="10"/>
+                                        <state key="normal" title="ausloggen"/>
                                         <connections>
                                             <action selector="backButtonAction:" destination="3OU-9h-fND" eventType="touchUpInside" id="g7J-HD-23s"/>
                                         </connections>
@@ -539,4 +544,7 @@
             <point key="canvasLocation" x="-772" y="36.431784107946029"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="ic_clear" width="24" height="24"/>
+    </resources>
 </document>

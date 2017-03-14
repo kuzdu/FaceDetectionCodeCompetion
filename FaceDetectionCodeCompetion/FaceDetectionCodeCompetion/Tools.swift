@@ -32,4 +32,37 @@ class Tools {
     }
     
     
+    static func saveFaceIdAndImage(image: UIImage, faceId: String, keyImage:String, keyFaceId:String) {
+        if let imageData = UIImageJPEGRepresentation(image, 1) {
+            UserDefaults.standard.set(imageData, forKey: keyImage)
+        }
+        
+        UserDefaults.standard.set(faceId, forKey: keyFaceId)
+    }
+    
+    static func removeImageAndFaceId(keyImage:String, keyFaceId: String) {
+        UserDefaults.standard.removeObject(forKey: keyImage)
+        UserDefaults.standard.removeObject(forKey: keyFaceId)
+    }
+    
+    static  func loadImageAndFaceId(keyImage:String, keyFaceId: String) -> (UIImage,String)? {
+        
+        var image:UIImage?
+        var faceId:String?
+        
+        if let imageAsData:Data = UserDefaults.standard.object(forKey: keyImage) as? Data {
+            image = UIImage(data: imageAsData)
+        }
+        
+        if let getFaceId = UserDefaults.standard.string(forKey: keyFaceId) {
+            faceId = getFaceId
+        }
+        
+        if image != nil && faceId != nil {
+            return (image!,faceId!)
+        }
+        
+        return nil
+    }
+    
 }

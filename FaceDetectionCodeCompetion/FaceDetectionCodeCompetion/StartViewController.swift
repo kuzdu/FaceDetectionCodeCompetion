@@ -77,9 +77,31 @@ class StartViewController: UIViewController {
         }
     }
     
+    func loadImagesAndFillGlobalArrays() {
+        var finishedLoading = false
+        var keyCount = 1
+        
+        repeat {
+            if let (image,faceId) = Tools.loadImageAndFaceId(keyImage: "\(keyCount)_img", keyFaceId: "\(keyCount)_faceId") {
+                authorizedFaceIds.append(faceId)
+                authorizedImages.append(image)
+            } else {
+                finishedLoading = true
+            }
+            
+            keyCount += 1
+        } while (!finishedLoading)
+        
+    }
+    
 }
 
 extension StartViewController {
+    
+    
+    override func viewDidLoad() {
+        loadImagesAndFillGlobalArrays()
+    }
     
     override func viewDidAppear(_ animated: Bool) {
         if getUserDecidedToGiveCameraPermissionAlready() {

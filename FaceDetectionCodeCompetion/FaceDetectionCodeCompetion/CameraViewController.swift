@@ -37,7 +37,6 @@ class CameraViewController: UIViewController {
     //authorized user
     var userWantToLoginFaceIds:[String] = []
     
-    var isFirstVisitSoShowInformationView = true
     
     //camera
     let captureSession = AVCaptureSession()
@@ -45,8 +44,12 @@ class CameraViewController: UIViewController {
     var tookPhotoAutomatically = false
     var temporarySavedImage:UIImage?
     
+    
+    var firstInfoScreenWasRead = false
+    
+    
     /**
-     three states
+     two states
      login = take image and login with that
      authorisation = fill array with images
      */
@@ -56,15 +59,9 @@ class CameraViewController: UIViewController {
     var loginUser = false
     var authorizeUser = false
     
-    
-    
-    
     //MARK: BUTTON ACTIONS
     @IBAction func isFirstVisitUnderstandInfoButtonAction(_ sender: Any) {
-        isFirstVisitSoShowInformationView = false
-        isFirstVisitUnderstandInfoButton.isHidden = true
-        isFirstVisitInfoLabel.isHidden = true
-        isFirstVisitBackgroundView.isHidden = true
+        hideFirstVisitInfoScreen()
     }
     
     @IBAction func backButtonAction(_ sender: Any) {
@@ -72,19 +69,16 @@ class CameraViewController: UIViewController {
     }
     
     @IBAction func takeImageButtonAction(_ sender: Any) {
-        
-        hideDecisionPanel()
-        
         if let image = temporarySavedImage {
             authorizeImageOfUser(image: image)
         }
-        
+        hideDecisionPanel()
         EZLoadingActivity.show("Sichere Foto...📸", disableUI: true)
-        
     }
     
     
     func hideDecisionPanel() {
+        temporarySavedImage = nil
         dontTakeImageButton.isHidden = true
         takeImageButton.isHidden = true
         createdImageImageView.isHidden = true
@@ -105,7 +99,7 @@ class CameraViewController: UIViewController {
     }
     
     @IBAction func dontTakeImageButtonAction(_ sender: Any) {
-        hideFirstVisitInfoScreen()
+        hideDecisionPanel()
     }
     
     @IBAction func authorizeUserButtonAction(_ sender: Any) {
@@ -119,18 +113,18 @@ class CameraViewController: UIViewController {
     }
     
     func hideFirstVisitInfoScreen() {
-        temporarySavedImage = nil
-        createdImageImageView.isHidden = true
-        dontTakeImageButton.isHidden = true
-        takeImageButton.isHidden = true
+        isFirstVisitUnderstandInfoButton.isHidden = true
+        isFirstVisitInfoLabel.isHidden = true
+        isFirstVisitBackgroundView.isHidden = true
+        
+        firstInfoScreenWasRead = true
+        UserDefaults.standard.set(firstInfoScreenWasRead, forKey: "firstInfoScreenWasRead")
     }
     
     func showFirstVisitInfoScreen() {
-        if isFirstVisitSoShowInformationView {
-            isFirstVisitUnderstandInfoButton.isHidden = false
-            isFirstVisitInfoLabel.isHidden = false
-            isFirstVisitBackgroundView.isHidden = false
-        }
+        isFirstVisitUnderstandInfoButton.isHidden = false
+        isFirstVisitInfoLabel.isHidden = false
+        isFirstVisitBackgroundView.isHidden = false
     }
     
     func prepareCamera() {
@@ -183,7 +177,6 @@ class CameraViewController: UIViewController {
         
         self.mpoFaceServiceClient?.detect(with: dataOfUserWhoWantsLogin, returnFaceId: true, returnFaceLandmarks: true, returnFaceAttributes: nil, completionBlock: { (faces, error) in
             
-            
             var detectFace = false
             if let faces = faces {
                 for face in faces {
@@ -216,19 +209,24 @@ class CameraViewController: UIViewController {
         
     }
     
+    
     func updateUI() {
         if state == "login" {
-            showCountOfAuthorizedImages()
+            
+            temporarySavedImage = nil
+            createdImageImageView.isHidden = true
+            dontTakeImageButton.isHidden = true
+            takeImageButton.isHidden = true
+            
+           
+            
             
             if authorizedFaceIds.count > 4 {
-                
-                
                 self.authorizeUserButton.setTitle("Einloggen per Foto", for: .normal)
                 self.authorizeUserButton.setTitleColor(UIColor.white, for: .normal)
                 self.authorizeUserButton.backgroundColor = UIColor(red: CGFloat(99.0/255.0), green: CGFloat(130.0/255.0), blue: CGFloat(255.0/255.0), alpha: CGFloat(1))
             }
         }
-        
     }
     
     func authorizeImageOfUser(image: UIImage) {
@@ -242,7 +240,13 @@ class CameraViewController: UIViewController {
             if let faces = faces {
                 for face in faces {
                     authorizedFaceIds.append(face.faceId)
+                    
+                    
                     authorizedImages.append(image)
+                    
+                    
+                    Tools.saveFaceIdAndImage(image: image, faceId: face.faceId, keyImage: "\(authorizedImages.count)_img", keyFaceId: "\(authorizedImages.count)_faceId")
+                    
                     detectFace = true
                 }
             }
@@ -263,8 +267,8 @@ class CameraViewController: UIViewController {
                 if detectFace == true {
                     responseMessage = "Das Bild wurde gepspeichert und die ID erfolgreich hinterlegt. 🍯"
                     
+                    self.showCountOfAuthorizedImages()
                     self.updateUI()
-                    
                 } else {
                     responseMessage = "Auf dem Foto wurde kein Gesicht erkannt.🙈"
                 }
@@ -384,17 +388,34 @@ extension CameraViewController : AVCaptureVideoDataOutputSampleBufferDelegate{
 
 extension CameraViewController {
     
-    override func viewWillAppear(_ animated: Bool) {
-        self.navigationController?.navigationBar.isHidden = true
-        print("state \(state)")
-        if state == "login" {
+    
+    func hasFirstInfoScreen() {
+        
+        firstInfoScreenWasRead = UserDefaults.standard.bool(forKey: "firstInfoScreenWasRead")
+        
+        
+        if !firstInfoScreenWasRead {
             showFirstVisitInfoScreen()
         } else {
             hideFirstVisitInfoScreen()
         }
         
-        
+    }
+    
+    func hasBackButton() {
+        if state == "login" {
+            backButton.isHidden = true
+        }
+    }
+    
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.navigationBar.isHidden = true
+       
         prepareCamera()
+        
+        hasBackButton()
+        hasFirstInfoScreen()
     }
     
     override func viewWillDisappear(_ animated: Bool) {

@@ -60,12 +60,16 @@ extension ImageManagementViewController: UITableViewDelegate, UITableViewDataSou
             let debug = authorizedImages.count
             print("Debug \(debug)")
             let debug2 = indexPath.row
-            print("Debug 2\(debug2)")
+            print("Debug 2 \(debug2)")
             
             cell.deleteCallBack = {
                 if authorizedImages.count > indexPath.row {
                     authorizedImages.remove(at: indexPath.row)
                     
+                    let debug3 = indexPath.row
+                    print("Debug 3 \(debug3)")
+                    
+                    Tools.removeImageAndFaceId(keyImage: "\(indexPath.row+1)_img", keyFaceId: "\(indexPath.row+1)_faceId")
                     self.tableView.deleteRows(at: [IndexPath(row: indexPath.row, section: indexPath.section)], with: .automatic)
                 } else {
                 
