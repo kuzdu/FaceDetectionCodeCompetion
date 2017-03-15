@@ -320,8 +320,8 @@
                                 <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wt5-fo-887">
-                                        <rect key="frame" x="8" y="17" width="47" height="10"/>
-                                        <state key="normal" title="zurück"/>
+                                        <rect key="frame" x="8" y="17" width="72" height="10"/>
+                                        <state key="normal" title="ausloggen"/>
                                         <connections>
                                             <action selector="backButtonAction:" destination="5q0-Ig-8yE" eventType="touchUpInside" id="bXv-Vl-aLo"/>
                                         </connections>
@@ -455,8 +455,8 @@
                                 <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iXR-pt-b7H">
-                                        <rect key="frame" x="8" y="17" width="72" height="10"/>
-                                        <state key="normal" title="ausloggen"/>
+                                        <rect key="frame" x="8" y="17" width="47" height="10"/>
+                                        <state key="normal" title="zurück"/>
                                         <connections>
                                             <action selector="backButtonAction:" destination="3OU-9h-fND" eventType="touchUpInside" id="g7J-HD-23s"/>
                                         </connections>

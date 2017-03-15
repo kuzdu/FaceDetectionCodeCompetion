@@ -38,6 +38,8 @@ class Tools {
         }
         
         UserDefaults.standard.set(faceId, forKey: keyFaceId)
+        
+        UserDefaults.standard.set(authorizedImages.count, forKey: "countOfImages")
     }
     
     static func removeImageAndFaceId(keyImage:String, keyFaceId: String) {
