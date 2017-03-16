@@ -10,18 +10,17 @@ import UIKit
 
 class ImageManagementViewController: UIViewController {
     
-    
+    //MARK: UI
     @IBOutlet weak var tableView: UITableView!
     
+    //MARK: Button Action
     @IBAction func backButtonAction(_ sender: Any) {
         _ = self.navigationController?.popViewController(animated: true)
     }
     
-    
     @IBAction func addNewImageButtonAction(_ sender: Any) {
-        
-        if let vc = storyboard?.instantiateViewController(withIdentifier: "CameraViewController") as? CameraViewController {
-            vc.state = "authorisation"
+        if let vc = storyboard?.instantiateViewController(withIdentifier: cameraViewControllerIdent) as? CameraViewController {
+            vc.state = .authorisation
             navigationController?.pushViewController(vc, animated: true)
         }
     }
@@ -46,25 +45,26 @@ extension ImageManagementViewController: UITableViewDelegate, UITableViewDataSou
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return authorizedImages.count
+        return authorizedImagesGlobalArray.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        if let cell = tableView.dequeueReusableCell(withIdentifier: "ImageManagementIdent") as? ImageAndTwoButtonsTableViewCell {
+        if let cell = tableView.dequeueReusableCell(withIdentifier: imageManagementCellIdent) as? ImageAndTwoButtonsTableViewCell {
             
-            if authorizedImages.count > indexPath.row {
-                cell.imageView?.image = authorizedImages[indexPath.row]
+            
+            if authorizedImagesGlobalArray.count > indexPath.row {
+                cell.imageView?.image = authorizedImagesGlobalArray[indexPath.row]
             }
             
-            let debug = authorizedImages.count
+            let debug = authorizedImagesGlobalArray.count
             print("Debug \(debug)")
             let debug2 = indexPath.row
             print("Debug 2 \(debug2)")
             
             cell.deleteCallBack = {
-                if authorizedImages.count > indexPath.row {
-                    authorizedImages.remove(at: indexPath.row)
+                if authorizedImagesGlobalArray.count > indexPath.row {
+                    authorizedImagesGlobalArray.remove(at: indexPath.row)
                     
                     let debug3 = indexPath.row
                     print("Debug 3 \(debug3)")
@@ -72,8 +72,7 @@ extension ImageManagementViewController: UITableViewDelegate, UITableViewDataSou
                     Tools.removeImageAndFaceId(keyImage: "\(indexPath.row+1)_img", keyFaceId: "\(indexPath.row+1)_faceId")
                     self.tableView.deleteRows(at: [IndexPath(row: indexPath.row, section: indexPath.section)], with: .automatic)
                 } else {
-                
-                    Tools.showMessage(text: "Es muss mindestens ein Foto hinterlegt sein.", parentViewController: self)
+                    Tools.showMessage(text: minimumOneImageError, parentViewController: self)
                 }
             }
             
@@ -88,13 +87,8 @@ extension ImageManagementViewController: UITableViewDelegate, UITableViewDataSou
 
 extension ImageManagementViewController {
     
-    
     override func viewWillAppear(_ animated: Bool) {
         configureTableView()
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-    }
 }

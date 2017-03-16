@@ -25,7 +25,7 @@ class Tools {
     
     
     static func showMessage(text: String, parentViewController: UIViewController) {
-        if let vc = parentViewController.storyboard?.instantiateViewController(withIdentifier: "MessageScreenViewController") as? MessageScreenViewController {
+        if let vc = parentViewController.storyboard?.instantiateViewController(withIdentifier: messageScreenViewControllerIdent) as? MessageScreenViewController {
             vc.text = text
             Tools.displayContentController(partentViewController: parentViewController, childViewController: vc)
         }
@@ -38,8 +38,7 @@ class Tools {
         }
         
         UserDefaults.standard.set(faceId, forKey: keyFaceId)
-        
-        UserDefaults.standard.set(authorizedImages.count, forKey: "countOfImages")
+        UserDefaults.standard.set(authorizedImagesGlobalArray.count, forKey: numberOfImagesKey)
     }
     
     static func removeImageAndFaceId(keyImage:String, keyFaceId: String) {
@@ -65,6 +64,25 @@ class Tools {
         }
         
         return nil
+    }
+    
+    
+    static func openSettingsOfUsersIphoneToSetCameraPermisson() {
+        guard let settingsUrl = URL(string: UIApplicationOpenSettingsURLString) else {
+            return
+        }
+        
+        if UIApplication.shared.canOpenURL(settingsUrl) {
+            UIApplication.shared.open(settingsUrl, completionHandler: nil)
+        }
+    }
+    
+    static func userWasAskToGiveCameraPermission() {
+        UserDefaults.standard.set(true, forKey: userGaveAlreadyCameraPermissionKey)
+    }
+    
+    static func userGaveAlreadyCameraPermission() -> Bool {
+        return UserDefaults.standard.bool(forKey: userGaveAlreadyCameraPermissionKey)
     }
     
 }

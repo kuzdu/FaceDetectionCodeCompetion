@@ -11,23 +11,22 @@ import AVFoundation
 
 class StartViewController: UIViewController {
     
+    //MARK: UI
     @IBOutlet weak var getCameraPermissionButton: UIButton!
+    
+    
+    //MARK: Button Actions
     @IBAction func getCameraPermissionButtonAction(_ sender: Any) {
-        askForCameraPermission()
+        handleCameraPermission()
     }
     
-    var messageAlreadyShow = false
     
-    func userDecidedToGiveCameraPermission() {
-        UserDefaults.standard.set(true, forKey: "gaveCameraPermission")
-    }
+    //MARK: VARS
+    var messageThatAppJustWorkWithCameraPermissionAlreadyShow = false
     
-    func getUserDecidedToGiveCameraPermissionAlready() -> Bool {
-        return UserDefaults.standard.bool(forKey: "gaveCameraPermission")
-    }
     
-    func askForCameraPermission() {
-        userDecidedToGiveCameraPermission()
+    func handleCameraPermission() {
+        Tools.userWasAskToGiveCameraPermission()
         
         if AVCaptureDevice.authorizationStatus(forMediaType: AVMediaTypeVideo) ==  .authorized {
             goToCameraViewController()
@@ -37,25 +36,15 @@ class StartViewController: UIViewController {
                     self.goToCameraViewController()
                 } else {
                     
-                    if self.messageAlreadyShow {
-                        
-                        guard let settingsUrl = URL(string: UIApplicationOpenSettingsURLString) else {
-                            return
-                        }
-                        
-                        if UIApplication.shared.canOpenURL(settingsUrl) {
-                            UIApplication.shared.open(settingsUrl, completionHandler: { (success) in
-                                print("Settings opened: \(success)") // Prints true
-                            })
-                        }
+                    if self.messageThatAppJustWorkWithCameraPermissionAlreadyShow {
+                        Tools.openSettingsOfUsersIphoneToSetCameraPermisson()
                     } else {
                         
-                        
-                        self.messageAlreadyShow = true
+                        self.messageThatAppJustWorkWithCameraPermissionAlreadyShow = true
                         self.getCameraPermissionButton.setTitle("Zum Fotobereich", for: .normal)
                         
-                        if let vc = self.storyboard?.instantiateViewController(withIdentifier: "MessageScreenViewController") as? MessageScreenViewController {
-                            vc.text = "Aktiviere die Kamera. Sonst war es das schon.😞"
+                        if let vc = self.storyboard?.instantiateViewController(withIdentifier: messageScreenViewControllerIdent) as? MessageScreenViewController {
+                            vc.text = noCameraPermissionError
                             
                             DispatchQueue.main.async {
                                 Tools.displayContentController(partentViewController: self, childViewController: vc)
@@ -72,23 +61,21 @@ class StartViewController: UIViewController {
     }
     
     func goToCameraViewController() {
-        if let vc = storyboard?.instantiateViewController(withIdentifier: "CameraViewController") as? CameraViewController {
+        if let vc = storyboard?.instantiateViewController(withIdentifier: cameraViewControllerIdent) as? CameraViewController {
             navigationController?.pushViewController(vc, animated: true)
         }
     }
     
-    func loadImagesAndFillGlobalArrays() {
+    func fillGlobalArraysWithSavedData() {
        
-        let countOfImages = UserDefaults.standard.integer(forKey: "countOfImages")+1
-       
+        let numberOfImages = UserDefaults.standard.integer(forKey: numberOfImagesKey)+1
         
-        for i in 1..<countOfImages {
+        for i in 1..<numberOfImages {
             if let (image,faceId) = Tools.loadImageAndFaceId(keyImage: "\(i)_img", keyFaceId: "\(i)_faceId") {
-                authorizedFaceIds.append(faceId)
-                authorizedImages.append(image)
+                authorizedFaceIdsGlobalArray.append(faceId)
+                authorizedImagesGlobalArray.append(image)
             }
         }
-        
     }
     
 }
@@ -97,12 +84,12 @@ extension StartViewController {
     
     
     override func viewDidLoad() {
-        loadImagesAndFillGlobalArrays()
+        fillGlobalArraysWithSavedData()
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        if getUserDecidedToGiveCameraPermissionAlready() {
-            askForCameraPermission()
+        if Tools.userGaveAlreadyCameraPermission() {
+            handleCameraPermission()
         }
     }
 }

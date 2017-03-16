@@ -21,6 +21,7 @@
 		A4E346861E75AEDD008FBD9D /* ImageAndTwoButtonsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4E346851E75AEDD008FBD9D /* ImageAndTwoButtonsTableViewCell.swift */; };
 		A4E346881E75B001008FBD9D /* ImageManagementViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4E346871E75B001008FBD9D /* ImageManagementViewController.swift */; };
 		A4E3468A1E75D10C008FBD9D /* GlobalVars.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4E346891E75D10C008FBD9D /* GlobalVars.swift */; };
+		A4EDBCC11E7B44F0003677E4 /* State.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4EDBCC01E7B44F0003677E4 /* State.swift */; };
 		B8BE607633EDC7BCB6522265 /* Pods_FaceDetectionCodeCompetion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAC28B8739497AE4DC36E02C /* Pods_FaceDetectionCodeCompetion.framework */; };
 /* End PBXBuildFile section */
 
@@ -64,6 +65,7 @@
 		A4E346851E75AEDD008FBD9D /* ImageAndTwoButtonsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageAndTwoButtonsTableViewCell.swift; sourceTree = "<group>"; };
 		A4E346871E75B001008FBD9D /* ImageManagementViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageManagementViewController.swift; sourceTree = "<group>"; };
 		A4E346891E75D10C008FBD9D /* GlobalVars.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlobalVars.swift; sourceTree = "<group>"; };
+		A4EDBCC01E7B44F0003677E4 /* State.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = State.swift; sourceTree = "<group>"; };
 		C54E9E8F90FCB737AB2605C4 /* Pods-FaceDetectionCodeCompetion.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FaceDetectionCodeCompetion.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FaceDetectionCodeCompetion/Pods-FaceDetectionCodeCompetion.debug.xcconfig"; sourceTree = "<group>"; };
 		FAC28B8739497AE4DC36E02C /* Pods_FaceDetectionCodeCompetion.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FaceDetectionCodeCompetion.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -120,6 +122,7 @@
 		A44D14641E6DF354006DB65D /* FaceDetectionCodeCompetion */ = {
 			isa = PBXGroup;
 			children = (
+				A4EDBCBF1E7B44D9003677E4 /* Enums */,
 				A4E346841E75AEBB008FBD9D /* Cell */,
 				A44D149D1E708AE9006DB65D /* Tools */,
 				A44D14981E6F56D8006DB65D /* ViewController */,
@@ -177,6 +180,14 @@
 				A4E346851E75AEDD008FBD9D /* ImageAndTwoButtonsTableViewCell.swift */,
 			);
 			name = Cell;
+			sourceTree = "<group>";
+		};
+		A4EDBCBF1E7B44D9003677E4 /* Enums */ = {
+			isa = PBXGroup;
+			children = (
+				A4EDBCC01E7B44F0003677E4 /* State.swift */,
+			);
+			name = Enums;
 			sourceTree = "<group>";
 		};
 		B4F7132AFC09B6C58FC59323 /* Pods */ = {
@@ -387,6 +398,7 @@
 			files = (
 				A44D14971E6F56C9006DB65D /* StartViewController.swift in Sources */,
 				A4E3468A1E75D10C008FBD9D /* GlobalVars.swift in Sources */,
+				A4EDBCC11E7B44F0003677E4 /* State.swift in Sources */,
 				A4E346861E75AEDD008FBD9D /* ImageAndTwoButtonsTableViewCell.swift in Sources */,
 				A44D14681E6DF354006DB65D /* CameraViewController.swift in Sources */,
 				A44D149C1E7089FD006DB65D /* MessageScreenViewController.swift in Sources */,

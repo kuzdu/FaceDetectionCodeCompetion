@@ -371,6 +371,9 @@
                             <constraint firstItem="bga-A1-OPk" firstAttribute="leading" secondItem="ChW-In-h6s" secondAttribute="leading" constant="16" id="yqa-yR-GeR"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="placeForYourSpiritTextView" destination="Oyl-Og-jhP" id="F13-KA-lOT"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yJk-Gy-1cx" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
