@@ -1,0 +1,40 @@
+fastlane_version "1.50.0"
+
+
+
+
+default_platform :ios
+
+
+
+
+platform :ios do
+  before_all do
+
+  end
+
+
+
+
+  after_all do |lane|
+    # This block is called, only if the executed lane was successful
+  end
+
+  cert
+  sigh
+  gym(scheme: "FaceDetectionCodeCompetion")
+  deliver(force: true)
+
+  lane :beta do
+
+  end
+
+  error do |lane, exception|
+    if is_ci
+      slack(
+        message: exception.message,
+        success: false
+      )
+    end
+  end
+end

@@ -54,6 +54,16 @@ class CameraViewController: UIViewController {
     var isLoggedIn = false
     var authorizeUser = false
     
+    
+    var _uploadQueue:[UIImage] = []
+    var uploadQueue:[UIImage] {
+        set {
+            _uploadQueue = newValue
+        } get {
+            return _uploadQueue
+        }
+    }
+    
     //MARK: BUTTON ACTIONS
     @IBAction func isFirstVisitUnderstandInfoButtonAction(_ sender: Any) {
         hideFirstVisitInfoScreen()
@@ -63,12 +73,58 @@ class CameraViewController: UIViewController {
         _ = self.navigationController?.popViewController(animated: true)
     }
     
+    
+    func removeValueFromUploaQueue(number: Int) {
+        if uploadQueue.count > number {
+            uploadQueue.remove(at: number)
+        }
+    }
+    
+    func upload(number: Int) {
+        if number < uploadQueue.count {
+            
+            authorizeImageOfUser(image: uploadQueue[number]) { (successFullUpload) in
+                
+                if self.uploadQueue.count == 0 {
+                    print("upload finished")
+                } else {
+                    self.removeValueFromUploaQueue(number: number)
+                    self.upload(number: number)
+                    self.updateUI()
+                }
+            }
+        } else {
+            uploadQueue = []
+            EZLoadingActivity.hide()
+        }
+        
+    }
+    
     @IBAction func takeImageButtonAction(_ sender: Any) {
         if let image = temporarySavedImage {
-            authorizeImageOfUser(image: image)
+         
+       
+            uploadQueue.append(image)
+            
+            if state == .login {
+                showCountOfSavedImagesLocally()
+                updateUI()
+                
+                let count = uploadQueue.count + authorizedImagesGlobalArray.count
+                if count >= 5 {
+                    if uploadQueue.count > 0 {
+                        EZLoadingActivity.show(saveProcessMessage, disableUI: true)
+                        upload(number: 0)
+                    }
+                }
+            } else {
+                if uploadQueue.count > 0 {
+                    EZLoadingActivity.show(saveProcessMessage, disableUI: true)
+                    upload(number: 0)
+                }
+            }
         }
         hideDecisionPanel()
-        EZLoadingActivity.show(saveProcessMessage, disableUI: true)
     }
     
     @IBAction func dontTakeImageButtonAction(_ sender: Any) {
@@ -86,7 +142,7 @@ class CameraViewController: UIViewController {
     }
     
     
-  
+    
     
     func prepareCamera() {
         captureSession.sessionPreset = AVCaptureSessionPresetPhoto
@@ -170,22 +226,22 @@ class CameraViewController: UIViewController {
     
     
     
-  
     
     
     
     
-    func authorizeImageOfUser(image: UIImage) {
+    
+    func authorizeImageOfUser(image: UIImage, completion: @escaping (_ success:Bool) -> Void) {
         
         let imageToData = UIImageJPEGRepresentation(image,1)
         
         mpoFaceServiceClient?.detect(with: imageToData, returnFaceId: true, returnFaceLandmarks: true, returnFaceAttributes: nil, completionBlock: { (faces, error) in
             
             var detectFace = false
-
+            
             if let faces = faces {
                 for face in faces {
-                  
+                    
                     authorizedFaceIdsGlobalArray.append(face.faceId)
                     authorizedImagesGlobalArray.append(image)
                     
@@ -210,12 +266,14 @@ class CameraViewController: UIViewController {
                 if detectFace == true {
                     responseMessage = savedImageMessage
                     
-                    self.showYesOrNoIfUserWantTakeOrDontTakeHisImage()
+                    //                    self.showCountOfSavedImagesLocally()
                     self.updateUI()
                 } else {
                     responseMessage = noFaceDetectedError
                 }
             }
+            
+            completion(detectFace)
             EZLoadingActivity.hide()
             Tools.showMessage(text: responseMessage, parentViewController: self)
         })
@@ -303,13 +361,18 @@ class CameraViewController: UIViewController {
         createdImageImageView.isHidden = true
     }
     
-    func showYesOrNoIfUserWantTakeOrDontTakeHisImage() {
+    func showCountOfSavedImagesLocally() {
         showCountOfAuthorizedImagesLabel.alpha = 1.0
         showCountOfAuthorizedImagesLabel.isHidden = false
-        showCountOfAuthorizedImagesLabel.text = "\(authorizedImagesGlobalArray.count)"
         
+        if state == .login {
+            let count = uploadQueue.count + authorizedImagesGlobalArray.count
+            showCountOfAuthorizedImagesLabel.text = "\(count)"
+        } else {
+            showCountOfAuthorizedImagesLabel.text = "\(uploadQueue.count)"
+        }
         
-        UIView.animate(withDuration: 1.5, animations: {
+        UIView.animate(withDuration: 0.5, animations: {
             self.showCountOfAuthorizedImagesLabel.alpha = 0.0
         }, completion: { (finished) in
             self.showCountOfAuthorizedImagesLabel.isHidden = true
@@ -402,15 +465,17 @@ extension CameraViewController : AVCaptureVideoDataOutputSampleBufferDelegate{
             }
         }
     }
-   
+    
 }
 
 
 extension CameraViewController {
     
+    
+    
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.navigationBar.isHidden = true
-       
+        
         prepareCamera()
         updateUI()
         hasBackButton()
@@ -418,6 +483,8 @@ extension CameraViewController {
     }
     
     override func viewWillDisappear(_ animated: Bool) {
+     
+        
         stopCaptureSession()
     }
     
