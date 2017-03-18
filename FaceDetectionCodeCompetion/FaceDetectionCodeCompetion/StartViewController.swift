@@ -61,8 +61,10 @@ class StartViewController: UIViewController {
     }
     
     func goToCameraViewController() {
-        if let vc = storyboard?.instantiateViewController(withIdentifier: cameraViewControllerIdent) as? CameraViewController {
-            navigationController?.pushViewController(vc, animated: true)
+        DispatchQueue.main.async {
+            if let vc = self.storyboard?.instantiateViewController(withIdentifier: cameraViewControllerIdent) as? CameraViewController {
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
         }
     }
     
@@ -71,7 +73,10 @@ class StartViewController: UIViewController {
         let numberOfImages = UserDefaults.standard.integer(forKey: numberOfImagesKey)+1
         
         for i in 1..<numberOfImages {
+            print("LOAD keyImage: \(i)_img, keyFaceId: \(i)_faceId")
             if let (image,faceId) = Tools.loadImageAndFaceId(keyImage: "\(i)_img", keyFaceId: "\(i)_faceId") {
+                print("LOADED")
+                
                 authorizedFaceIdsGlobalArray.append(faceId)
                 authorizedImagesGlobalArray.append(image)
             }

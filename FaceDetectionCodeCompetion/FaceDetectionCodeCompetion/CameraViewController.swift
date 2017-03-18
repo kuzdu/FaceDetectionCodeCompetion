@@ -51,7 +51,7 @@ class CameraViewController: UIViewController {
     var state = State.login
     
     /** needs toogles */
-    var loginUser = false
+    var isLoggedIn = false
     var authorizeUser = false
     
     //MARK: BUTTON ACTIONS
@@ -68,11 +68,8 @@ class CameraViewController: UIViewController {
             authorizeImageOfUser(image: image)
         }
         hideDecisionPanel()
-        EZLoadingActivity.show("Sichere Foto...📸", disableUI: true)
+        EZLoadingActivity.show(saveProcessMessage, disableUI: true)
     }
-    
-    
-   
     
     @IBAction func dontTakeImageButtonAction(_ sender: Any) {
         hideDecisionPanel()
@@ -81,7 +78,7 @@ class CameraViewController: UIViewController {
     @IBAction func authorizeUserButtonAction(_ sender: Any) {
         
         if authorizedFaceIdsGlobalArray.count > 4 && state == State.login {
-            loginUser = true
+            isLoggedIn = true
             EZLoadingActivity.show(checkFaceMessage, disableUI: true)
         } else {
             authorizeUser = true
@@ -271,7 +268,6 @@ class CameraViewController: UIViewController {
         } else {
             hideFirstVisitInfoScreen()
         }
-        
     }
     
     func hasBackButton() {
@@ -292,6 +288,10 @@ class CameraViewController: UIViewController {
                 self.authorizeUserButton.setTitle("Einloggen per Foto", for: .normal)
                 self.authorizeUserButton.setTitleColor(UIColor.white, for: .normal)
                 self.authorizeUserButton.backgroundColor = UIColor(red: CGFloat(99.0/255.0), green: CGFloat(130.0/255.0), blue: CGFloat(255.0/255.0), alpha: CGFloat(1))
+            } else {
+                self.authorizeUserButton.setTitle("Foto hinterlegen", for: .normal)
+                self.authorizeUserButton.setTitleColor(UIColor.white, for: .normal)
+                self.authorizeUserButton.backgroundColor = UIColor(red: CGFloat(170.0/255.0), green: CGFloat(170.0/255.0), blue: CGFloat(170.0/255.0), alpha: CGFloat(1))
             }
         }
     }
@@ -359,8 +359,8 @@ extension CameraViewController : AVCaptureVideoDataOutputSampleBufferDelegate{
             }
         }
         
-        if loginUser {
-            loginUser = false
+        if isLoggedIn {
+            isLoggedIn = false
             
             if let image = getImageFromSampleBuffer(buffer: sampleBuffer) {
                 checkLogin(forImage: image)
@@ -403,21 +403,16 @@ extension CameraViewController : AVCaptureVideoDataOutputSampleBufferDelegate{
         }
     }
    
-    
-    
 }
 
 
 extension CameraViewController {
     
-    
-    
-    
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.navigationBar.isHidden = true
        
         prepareCamera()
-        
+        updateUI()
         hasBackButton()
         needToShowInfoScreen()
     }

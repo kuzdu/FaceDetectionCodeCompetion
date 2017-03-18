@@ -13,7 +13,7 @@ class ImageManagementViewController: UIViewController {
     //MARK: UI
     @IBOutlet weak var tableView: UITableView!
     
-    //MARK: Button Action
+    //MARK: BUTTON ACTIONS
     @IBAction func backButtonAction(_ sender: Any) {
         _ = self.navigationController?.popViewController(animated: true)
     }
@@ -25,6 +25,25 @@ class ImageManagementViewController: UIViewController {
         }
     }
     
+    func dismissImage(tapGestureRecognizer: UITapGestureRecognizer) {
+        if let tappedImage = tapGestureRecognizer.view as? UIImageView {
+            tappedImage.removeFromSuperview()
+        }
+    }
+    
+    //MARK: INNER LOGIC
+    func showImageByTap(_ image: UIImage, view: UIView) {
+        let newImageView = UIImageView(frame:CGRect(x: 0,y: 0, width: view.frame.width, height: view.frame.height))
+        newImageView.autoresizingMask = [.flexibleBottomMargin,.flexibleHeight,.flexibleRightMargin,.flexibleLeftMargin,.flexibleTopMargin,.flexibleWidth]
+        newImageView.contentMode = .scaleAspectFit
+        newImageView.isUserInteractionEnabled = true
+        newImageView.backgroundColor = UIColor(red: 0, green: 0.0, blue: 0.0, alpha: 0.5)
+        newImageView.image = image
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissImage(tapGestureRecognizer:)))
+        newImageView.addGestureRecognizer(tap)
+        view.addSubview(newImageView)
+    }
     
     func configureTableView() {
         tableView.delegate = self
@@ -34,8 +53,6 @@ class ImageManagementViewController: UIViewController {
         tableView.reloadData()
         tableView.tableFooterView = UIView()
     }
-    
-    
     
 }
 extension ImageManagementViewController: UITableViewDelegate, UITableViewDataSource {
@@ -57,20 +74,42 @@ extension ImageManagementViewController: UITableViewDelegate, UITableViewDataSou
                 cell.imageView?.image = authorizedImagesGlobalArray[indexPath.row]
             }
             
-            let debug = authorizedImagesGlobalArray.count
-            print("Debug \(debug)")
-            let debug2 = indexPath.row
-            print("Debug 2 \(debug2)")
+            cell.tapImageCallBack = {
+                if authorizedImagesGlobalArray.count > indexPath.row {
+                    self.showImageByTap(authorizedImagesGlobalArray[indexPath.row], view: self.view)
+                }
+            }
             
             cell.deleteCallBack = {
-                if authorizedImagesGlobalArray.count > indexPath.row {
+                if authorizedImagesGlobalArray.count > indexPath.row && authorizedImagesGlobalArray.count != 1 {
+                   
                     authorizedImagesGlobalArray.remove(at: indexPath.row)
-                    
-                    let debug3 = indexPath.row
-                    print("Debug 3 \(debug3)")
-                    
+                    authorizedFaceIdsGlobalArray.remove(at: indexPath.row)
+                    print("remove faceId and image at indexPath.row \(indexPath.row)")
+                    //need plus 1: when the keys will be save the counter starts with 1, row counter begin with 0
                     Tools.removeImageAndFaceId(keyImage: "\(indexPath.row+1)_img", keyFaceId: "\(indexPath.row+1)_faceId")
-                    self.tableView.deleteRows(at: [IndexPath(row: indexPath.row, section: indexPath.section)], with: .automatic)
+                    
+                    UIView.animate(withDuration: 0.5, animations: {
+                        self.tableView.beginUpdates()
+                        self.tableView.deleteRows(at: [IndexPath(row: indexPath.row, section: indexPath.section)], with: .automatic)
+                        self.tableView.endUpdates()
+                    }, completion: { (finished) in
+                   
+                        let oldDatasFace = authorizedFaceIdsGlobalArray
+                        authorizedFaceIdsGlobalArray = []
+                        let oldDataImage = authorizedImagesGlobalArray
+                        authorizedImagesGlobalArray = []
+                        
+                        for i in 0..<oldDatasFace.count {
+                            
+                            authorizedFaceIdsGlobalArray.append(oldDatasFace[i])
+                            authorizedImagesGlobalArray.append(oldDataImage[i])
+                            Tools.saveFaceIdAndImage(image: oldDataImage[i], faceId: oldDatasFace[i], keyImage: "\(i)_img", keyFaceId: "\(i)_faceId")
+                        }
+                        
+                        self.tableView.reloadData()
+                    })
+                    
                 } else {
                     Tools.showMessage(text: minimumOneImageError, parentViewController: self)
                 }

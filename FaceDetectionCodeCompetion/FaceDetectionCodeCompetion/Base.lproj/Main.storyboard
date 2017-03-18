@@ -37,9 +37,9 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lzf-Sz-wAc">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="602"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KaR-mt-w8w">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="KaR-mt-w8w">
                                         <rect key="frame" x="16" y="20" width="343" height="566"/>
-                                        <string key="text">Diese App bietet dir perfekten Schutz. Hinterlege ein Bild von dir anstatt ein Passwort und schon kommst nur du in den geschützten Bereich.</string>
+                                        <string key="text">Diese App bietet dir den perfekten Schutz. Hinterlege Bilder von dir. Dein Gesicht wird gescannt, um in den geschützten Bereich zu gelagen. Zack 📲 bist du drin. Einfach super.</string>
                                         <fontDescription key="fontDescription" type="system" weight="thin" pointSize="30"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
@@ -100,7 +100,7 @@
                                     <constraint firstAttribute="height" constant="65" id="pqR-bo-xtm"/>
                                 </constraints>
                                 <state key="normal" title="Foto hinterlegen">
-                                    <color key="titleColor" red="1" green="0.99839551999999998" blue="0.94201306090000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
                                 <connections>
                                     <action selector="authorizeUserButtonAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Tox-e7-CM7"/>
@@ -164,12 +164,18 @@
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YjP-6z-kmA">
                                 <rect key="frame" x="16" y="20" width="75" height="53"/>
+                                <color key="backgroundColor" red="0.38823529410000002" green="0.50980392159999999" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="75" id="FPl-Ut-sLZ"/>
                                     <constraint firstAttribute="height" constant="53" id="VzQ-WI-13D"/>
                                 </constraints>
                                 <color key="tintColor" red="0.99939942020000005" green="1" blue="0.96757063320000003" alpha="1" colorSpace="calibratedRGB"/>
                                 <state key="normal" image="ic_clear"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="2"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
                                 <connections>
                                     <action selector="backButtonAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="fkK-BK-ERG"/>
                                 </connections>
@@ -298,8 +304,11 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" text="Platz für deine Gedanken.🦄" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Oyl-Og-jhP">
-                                <rect key="frame" x="16" y="155" width="343" height="431"/>
+                                <rect key="frame" x="16" y="155" width="343" height="155"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="155" id="kqu-BG-hHG"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
@@ -320,14 +329,14 @@
                                 <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wt5-fo-887">
-                                        <rect key="frame" x="8" y="17" width="72" height="10"/>
+                                        <rect key="frame" x="8" y="0.0" width="72" height="44"/>
                                         <state key="normal" title="ausloggen"/>
                                         <connections>
                                             <action selector="backButtonAction:" destination="5q0-Ig-8yE" eventType="touchUpInside" id="bXv-Vl-aLo"/>
                                         </connections>
                                     </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Dein privater Bereich" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ogw-Z1-sTd">
-                                        <rect key="frame" x="107" y="12" width="160" height="21"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="⭐️Dein Bereich⭐️" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ogw-Z1-sTd">
+                                        <rect key="frame" x="116" y="12" width="143" height="21"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
@@ -335,8 +344,8 @@
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstItem="Wt5-fo-887" firstAttribute="top" secondItem="ufa-Gm-dQC" secondAttribute="top" constant="17" id="Hv9-9G-X9k"/>
-                                    <constraint firstAttribute="bottom" secondItem="Wt5-fo-887" secondAttribute="bottom" constant="17" id="IMf-OL-XXn"/>
+                                    <constraint firstItem="Wt5-fo-887" firstAttribute="top" secondItem="ufa-Gm-dQC" secondAttribute="top" id="Hv9-9G-X9k"/>
+                                    <constraint firstAttribute="bottom" secondItem="Wt5-fo-887" secondAttribute="bottom" id="IMf-OL-XXn"/>
                                     <constraint firstItem="Wt5-fo-887" firstAttribute="leading" secondItem="ufa-Gm-dQC" secondAttribute="leading" constant="8" id="b82-J7-T3V"/>
                                     <constraint firstItem="Ogw-Z1-sTd" firstAttribute="centerX" secondItem="ufa-Gm-dQC" secondAttribute="centerX" id="iLs-be-epT"/>
                                     <constraint firstAttribute="height" constant="44" id="m11-29-UZf"/>
@@ -350,6 +359,16 @@
                                     <constraint firstAttribute="height" constant="20" id="dLg-wK-moN"/>
                                 </constraints>
                             </view>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8Q6-cD-ci1">
+                                <rect key="frame" x="16" y="318" width="343" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Tastatur einklappen">
+                                    <color key="titleColor" red="0.99939942020000005" green="1" blue="0.96757063320000003" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="hideKeyboardButtonAction:" destination="5q0-Ig-8yE" eventType="touchUpInside" id="X4H-u0-c5v"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.38823529410000002" green="0.50980392159999999" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -363,7 +382,6 @@
                             <constraint firstItem="bga-A1-OPk" firstAttribute="top" secondItem="ufa-Gm-dQC" secondAttribute="bottom" constant="16" id="Wic-Yx-Imr"/>
                             <constraint firstItem="xzM-ZN-ynz" firstAttribute="leading" secondItem="ChW-In-h6s" secondAttribute="leading" id="b52-4L-dES"/>
                             <constraint firstAttribute="trailing" secondItem="bga-A1-OPk" secondAttribute="trailing" constant="16" id="bBe-gC-rw0"/>
-                            <constraint firstItem="xzM-ZN-ynz" firstAttribute="top" secondItem="Oyl-Og-jhP" secondAttribute="bottom" constant="16" id="caQ-uz-LOc"/>
                             <constraint firstItem="ufa-Gm-dQC" firstAttribute="top" secondItem="fGt-CY-1Fo" secondAttribute="bottom" id="iJS-LO-LN8"/>
                             <constraint firstAttribute="trailing" secondItem="Erh-kb-TU8" secondAttribute="trailing" id="mpg-RV-Mop"/>
                             <constraint firstAttribute="trailing" secondItem="Oyl-Og-jhP" secondAttribute="trailing" constant="16" id="o1i-fP-2tQ"/>
@@ -372,6 +390,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="hideKeyboardButton" destination="8Q6-cD-ci1" id="hIL-4h-8wz"/>
                         <outlet property="placeForYourSpiritTextView" destination="Oyl-Og-jhP" id="F13-KA-lOT"/>
                     </connections>
                 </viewController>
@@ -395,7 +414,7 @@
                                 <rect key="frame" x="0.0" y="64" width="375" height="538"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ImageManagementIdent" rowHeight="99" id="Doh-E8-oJA" customClass="ImageAndTwoButtonsTableViewCell" customModule="FaceDetectionCodeCompetion" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="ImageManagementIdent" rowHeight="99" id="Doh-E8-oJA" customClass="ImageAndTwoButtonsTableViewCell" customModule="FaceDetectionCodeCompetion" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="375" height="99"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Doh-E8-oJA" id="vpI-C2-vkb">
@@ -458,14 +477,14 @@
                                 <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iXR-pt-b7H">
-                                        <rect key="frame" x="8" y="17" width="47" height="10"/>
+                                        <rect key="frame" x="8" y="0.0" width="47" height="44"/>
                                         <state key="normal" title="zurück"/>
                                         <connections>
                                             <action selector="backButtonAction:" destination="3OU-9h-fND" eventType="touchUpInside" id="g7J-HD-23s"/>
                                         </connections>
                                     </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Dein privater Bereich" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rD0-MM-q0Z">
-                                        <rect key="frame" x="107" y="12" width="160" height="21"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Bilder verwalten🙌" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rD0-MM-q0Z">
+                                        <rect key="frame" x="114.5" y="12" width="146" height="21"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
@@ -473,12 +492,12 @@
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="bottom" secondItem="iXR-pt-b7H" secondAttribute="bottom" constant="17" id="6oI-f8-KAh"/>
+                                    <constraint firstAttribute="bottom" secondItem="iXR-pt-b7H" secondAttribute="bottom" id="6oI-f8-KAh"/>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="44" id="6ob-Xv-cej"/>
                                     <constraint firstItem="rD0-MM-q0Z" firstAttribute="centerY" secondItem="mqe-lJ-7pe" secondAttribute="centerY" id="BTe-0D-ugQ"/>
                                     <constraint firstItem="rD0-MM-q0Z" firstAttribute="centerX" secondItem="mqe-lJ-7pe" secondAttribute="centerX" id="PHW-w6-zD2"/>
                                     <constraint firstAttribute="height" constant="44" id="eKw-ZM-LbA"/>
-                                    <constraint firstItem="iXR-pt-b7H" firstAttribute="top" secondItem="mqe-lJ-7pe" secondAttribute="top" constant="17" id="fcc-L1-ChL"/>
+                                    <constraint firstItem="iXR-pt-b7H" firstAttribute="top" secondItem="mqe-lJ-7pe" secondAttribute="top" id="fcc-L1-ChL"/>
                                     <constraint firstItem="iXR-pt-b7H" firstAttribute="leading" secondItem="mqe-lJ-7pe" secondAttribute="leading" constant="8" id="rTb-Ph-iGs"/>
                                 </constraints>
                             </view>

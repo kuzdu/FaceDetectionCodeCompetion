@@ -32,7 +32,24 @@ class Tools {
     }
     
     
+    
+    static func removeImageAndFaceId(keyImage:String, keyFaceId: String) {
+       
+        print("REMOVE key image \(keyImage) keyFaceId \(keyFaceId)")
+        UserDefaults.standard.removeObject(forKey: keyImage)
+        UserDefaults.standard.removeObject(forKey: keyFaceId)
+    }
+    
     static func saveFaceIdAndImage(image: UIImage, faceId: String, keyImage:String, keyFaceId:String) {
+        
+        let debugImage = image
+        let debugFaceId = faceId
+        let debugKeyImage = keyImage
+        let debugKeyFaceId = keyFaceId
+        print("key image \(keyImage) keyFaceId \(keyFaceId)")
+        print("authorizedImagesGlobalArray.count \(authorizedImagesGlobalArray.count)")
+       
+        
         if let imageData = UIImageJPEGRepresentation(image, 1) {
             UserDefaults.standard.set(imageData, forKey: keyImage)
         }
@@ -41,10 +58,6 @@ class Tools {
         UserDefaults.standard.set(authorizedImagesGlobalArray.count, forKey: numberOfImagesKey)
     }
     
-    static func removeImageAndFaceId(keyImage:String, keyFaceId: String) {
-        UserDefaults.standard.removeObject(forKey: keyImage)
-        UserDefaults.standard.removeObject(forKey: keyFaceId)
-    }
     
     static  func loadImageAndFaceId(keyImage:String, keyFaceId: String) -> (UIImage,String)? {
         
@@ -85,4 +98,6 @@ class Tools {
         return UserDefaults.standard.bool(forKey: userGaveAlreadyCameraPermissionKey)
     }
     
+    
+       
 }
