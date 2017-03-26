@@ -54,14 +54,9 @@ class CameraViewController: UIViewController {
     var isLoggedIn = false
     var authorizeUser = false
     
-    var _uploadQueue:[UIImage] = []
-    var uploadQueue:[UIImage] {
-        set {
-            _uploadQueue = newValue
-        } get {
-            return _uploadQueue
-        }
-    }
+    var uploadQueue:[UIImage] = []
+    var failedUploadingImages:[String] = []
+    
     
     //MARK: BUTTON ACTIONS
     @IBAction func isFirstVisitUnderstandInfoButtonAction(_ sender: Any) {
@@ -77,7 +72,22 @@ class CameraViewController: UIViewController {
     func removeValueFromUploaQueue(number: Int) {
         if uploadQueue.count > number {
             uploadQueue.remove(at: number)
+        } else {
+            if self.uploadQueue.count == 1 {
+                EZLoadingActivity.hide()
+            }
         }
+    }
+    
+    /** generates error message for images that can't be uploaded */
+    func createErrorMessage() -> String {
+        var errorMessage = "Es wurden \(failedUploadingImages.count) abgelehnt. Aufgrung von:\n"
+        
+        for error in failedUploadingImages {
+            errorMessage += "-\(error)\n"
+        }
+        
+        return errorMessage
     }
     
     /** start upload - it's recursive */
@@ -91,6 +101,14 @@ class CameraViewController: UIViewController {
                 }
             }
         } else {
+            
+            if self.failedUploadingImages.count == 0 {
+                Tools.showMessage(text: savedImageMessage, parentViewController: self)
+            } else {
+                Tools.showMessage(text: self.createErrorMessage(), parentViewController: self)
+                self.failedUploadingImages = []
+            }
+            
             uploadQueue = []
             EZLoadingActivity.hide()
         }
@@ -222,6 +240,8 @@ class CameraViewController: UIViewController {
         
     }
     
+    
+    
     /** save valid image for image management and face id for later login  */
     func authorizeImageOfUser(image: UIImage, completion: @escaping (_ success:Bool) -> Void) {
         
@@ -230,48 +250,30 @@ class CameraViewController: UIViewController {
         mpoFaceServiceClient?.detect(with: imageToData, returnFaceId: true, returnFaceLandmarks: true, returnFaceAttributes: nil, completionBlock: { (faces, error) in
             
             var detectFace = false
+            var responseMessage = unknownError
             
             if let faces = faces {
                 for face in faces {
                     
                     authorizedFaceIdsGlobalArray.append(face.faceId)
                     authorizedImagesGlobalArray.append(image)
-                    
                     Tools.saveFaceIdAndImage(image: image, faceId: face.faceId, keyImage: "\(authorizedImagesGlobalArray.count)_img", keyFaceId: "\(authorizedImagesGlobalArray.count)_faceId")
                     
                     detectFace = true
                 }
             }
             
-            
-            var responseMessage = unknownError
-            if error != nil {
-                
+            if error != nil || !detectFace {
                 if let error = error?.localizedDescription {
                     responseMessage = error
-                }
-                
-                Tools.showMessage(text: responseMessage, parentViewController: self)
-            } else {
-                
-                
-                if detectFace == true {
-                    responseMessage = savedImageMessage
-                    
-                    //                    self.showCountOfSavedImagesLocally()
-                    self.updateUI()
                 } else {
                     responseMessage = noFaceDetectedError
                 }
+           
+                self.failedUploadingImages.append(responseMessage)
             }
             
-            if self.uploadQueue.count == 1 {
-                completion(detectFace)
-                EZLoadingActivity.hide()
-                Tools.showMessage(text: responseMessage, parentViewController: self)
-            } else {
-                self.showUploadQueueState()
-            }
+            completion(detectFace)
         })
     }
     

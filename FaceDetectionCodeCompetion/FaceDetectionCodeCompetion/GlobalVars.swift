@@ -18,8 +18,8 @@ let microsoftFaceDetectionApiKey = "7a3bad27eb4d41849eb86bb8cf310c86"
 
 
 //normal messages
-let saveProcessMessage = "Uploading...📸"
-let savedImageMessage = "Das Bild wurde gepspeichert und die ID erfolgreich hinterlegt. 🍯"
+let saveProcessMessage = "Lade hoch...📸"
+let savedImageMessage = "Das/die Bild/er wurde/n gepspeichert. 🍯"
 let checkFaceMessage = "Kontrolliere Gesicht...🕵️"
 
 
