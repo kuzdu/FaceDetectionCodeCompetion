@@ -12,11 +12,10 @@ import UIKit
 
 class ImageAndTwoButtonsTableViewCell : UITableViewCell {
     
-    var deleteCallBack: (() -> Void)?
-    var tapImageCallBack: (() -> Void)?
-    
+    /** MARK: UI ELEMENT */
     @IBOutlet weak var faceImageView: UIImageView!
     
+    /** MARK: BUTTON ACTIONS */
     @IBAction func showImageInBigButtonAction(_ sender: Any) {
         showImageInBig()
     }
@@ -25,12 +24,17 @@ class ImageAndTwoButtonsTableViewCell : UITableViewCell {
         deleteCallBack?()
     }
     
+    /** MARK: VARS */
+    var deleteCallBack: (() -> Void)?
+    var tapImageCallBack: (() -> Void)?
+    
+    /** callback to main viewcontroller */
     func showImageInBig() {
         tapImageCallBack?()
     }
     
+    /** make image clickable */
     override func awakeFromNib() {
-        
         let tap = UITapGestureRecognizer(target: self, action: #selector(showImageInBig))
         faceImageView.isUserInteractionEnabled = true
         faceImageView.addGestureRecognizer(tap)

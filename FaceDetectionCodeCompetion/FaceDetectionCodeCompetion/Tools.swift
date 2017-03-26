@@ -11,19 +11,21 @@ import UIKit
 
 class Tools {
     
+    /** display viewController (child) to partenViewcontroller */
     static func displayContentController(partentViewController:UIViewController, childViewController: UIViewController) {
         partentViewController.addChildViewController(childViewController)
         partentViewController.view.addSubview(childViewController.view)
         childViewController.didMove(toParentViewController: partentViewController)
     }
     
+    /** remove child */
     static func hideContentController(childViewController: UIViewController) {
         childViewController.willMove(toParentViewController: nil)
         childViewController.view.removeFromSuperview()
         childViewController.removeFromParentViewController()
     }
     
-    
+    /** will open a viewcontroller with message */
     static func showMessage(text: String, parentViewController: UIViewController) {
         if let vc = parentViewController.storyboard?.instantiateViewController(withIdentifier: messageScreenViewControllerIdent) as? MessageScreenViewController {
             vc.text = text
@@ -31,34 +33,22 @@ class Tools {
         }
     }
     
-    
-    
+    /** remove image and face id from storage */
     static func removeImageAndFaceId(keyImage:String, keyFaceId: String) {
-       
-        print("REMOVE key image \(keyImage) keyFaceId \(keyFaceId)")
         UserDefaults.standard.removeObject(forKey: keyImage)
         UserDefaults.standard.removeObject(forKey: keyFaceId)
     }
-    
+
+    /** add image and face id to storage */
     static func saveFaceIdAndImage(image: UIImage, faceId: String, keyImage:String, keyFaceId:String) {
-        
-        let debugImage = image
-        let debugFaceId = faceId
-        let debugKeyImage = keyImage
-        let debugKeyFaceId = keyFaceId
-        print("key image \(keyImage) keyFaceId \(keyFaceId)")
-        print("authorizedImagesGlobalArray.count \(authorizedImagesGlobalArray.count)")
-       
-        
         if let imageData = UIImageJPEGRepresentation(image, 1) {
             UserDefaults.standard.set(imageData, forKey: keyImage)
         }
-        
         UserDefaults.standard.set(faceId, forKey: keyFaceId)
         UserDefaults.standard.set(authorizedImagesGlobalArray.count, forKey: numberOfImagesKey)
     }
     
-    
+    /** load images and face id from storage */
     static  func loadImageAndFaceId(keyImage:String, keyFaceId: String) -> (UIImage,String)? {
         
         var image:UIImage?
@@ -79,7 +69,7 @@ class Tools {
         return nil
     }
     
-    
+    /** will open iphone menu setting */
     static func openSettingsOfUsersIphoneToSetCameraPermisson() {
         guard let settingsUrl = URL(string: UIApplicationOpenSettingsURLString) else {
             return
@@ -90,10 +80,11 @@ class Tools {
         }
     }
     
+    /** user gave answer to camera permission question  */
     static func userWasAskToGiveCameraPermission() {
         UserDefaults.standard.set(true, forKey: userGaveAlreadyCameraPermissionKey)
     }
-    
+    /** return true when user answer camera permission question */
     static func userGaveAlreadyCameraPermission() -> Bool {
         return UserDefaults.standard.bool(forKey: userGaveAlreadyCameraPermissionKey)
     }

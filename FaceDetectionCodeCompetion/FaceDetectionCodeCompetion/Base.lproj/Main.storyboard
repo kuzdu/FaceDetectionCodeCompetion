@@ -27,7 +27,7 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="65" id="gIy-xr-0Gi"/>
                                 </constraints>
-                                <state key="normal" title="Kameraberechtigung erteilten">
+                                <state key="normal" title="Zum Fotobereich">
                                     <color key="titleColor" red="0.38823529411764707" green="0.50980392156862742" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
@@ -39,7 +39,7 @@
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="KaR-mt-w8w">
                                         <rect key="frame" x="16" y="20" width="343" height="566"/>
-                                        <string key="text">Diese App bietet dir den perfekten Schutz. Hinterlege Bilder von dir. Dein Gesicht wird gescannt, um in den geschützten Bereich zu gelagen. Zack 📲 bist du drin. Einfach super.</string>
+                                        <string key="text">Diese App bietet dir den perfekten Schutz. Erteile die Kameraberechtigung und hinterlege Bilder von dir. Dein Gesicht wird gescannt und schon gelangst du in den geschützten Bereich. Zack 📲 bist du drin. Einfach super.</string>
                                         <fontDescription key="fontDescription" type="system" weight="thin" pointSize="30"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
@@ -163,11 +163,11 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YjP-6z-kmA">
-                                <rect key="frame" x="16" y="20" width="75" height="53"/>
+                                <rect key="frame" x="16" y="20" width="55" height="55"/>
                                 <color key="backgroundColor" red="0.38823529410000002" green="0.50980392159999999" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="75" id="FPl-Ut-sLZ"/>
-                                    <constraint firstAttribute="height" constant="53" id="VzQ-WI-13D"/>
+                                    <constraint firstAttribute="width" constant="55" id="FPl-Ut-sLZ"/>
+                                    <constraint firstAttribute="height" constant="55" id="VzQ-WI-13D"/>
                                 </constraints>
                                 <color key="tintColor" red="0.99939942020000005" green="1" blue="0.96757063320000003" alpha="1" colorSpace="calibratedRGB"/>
                                 <state key="normal" image="ic_clear"/>

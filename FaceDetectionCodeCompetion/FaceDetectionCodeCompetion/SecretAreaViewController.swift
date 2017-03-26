@@ -10,26 +10,26 @@ import UIKit
 
 class SecretAreaViewController: UIViewController {
     
-    //MARK: UI
-    @IBOutlet weak var placeForYourSpiritTextView: UITextView!
-    
+    /** MARK: UI ELEMENTS */
+@IBOutlet weak var placeForYourSpiritTextView: UITextView!
     @IBOutlet weak var hideKeyboardButton: UIButton!
     
-    //MARK: BUTTON ACTIONS
+    /** MARK: BUTTON ACTIONS */
     @IBAction func backButtonAction(_ sender: Any) {
         _ = self.navigationController?.popViewController(animated: true)
     }
-    
+    /** go to ImageManagementViewController */
     @IBAction func manageAuthorizedImagesButtonAction(_ sender: Any) {
         if let vc = storyboard?.instantiateViewController(withIdentifier: imageManagementViewControllerIdent) as? ImageManagementViewController {
             self.navigationController?.pushViewController(vc, animated: true)
         }
     }
-    
+    /** hide keyboard after entering secret stuff */
     @IBAction func hideKeyboardButtonAction(_ sender: Any) {
         self.view.endEditing(true)
     }
     
+    /** load text from storage */
     func loadContentFromLastSessionAndSetToTextView() {
         if let text = UserDefaults.standard.string(forKey: inputInTextViewInSecretAreaTextKey) {
             if text.characters.count > 0 {
@@ -38,6 +38,7 @@ class SecretAreaViewController: UIViewController {
         }
     }
     
+    /** style and init textview*/
     func initTextView() {
         placeForYourSpiritTextView.delegate = self
         placeForYourSpiritTextView.layer.cornerRadius = 4
@@ -45,6 +46,10 @@ class SecretAreaViewController: UIViewController {
     
 }
 
+
+/**
+ show "hide keyboard button" when user input text
+ */
 extension SecretAreaViewController : UITextViewDelegate {
     
     func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {

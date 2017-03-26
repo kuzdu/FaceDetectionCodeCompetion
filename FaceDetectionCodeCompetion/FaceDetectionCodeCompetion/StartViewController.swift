@@ -14,12 +14,10 @@ class StartViewController: UIViewController {
     //MARK: UI
     @IBOutlet weak var getCameraPermissionButton: UIButton!
     
-    
     //MARK: Button Actions
     @IBAction func getCameraPermissionButtonAction(_ sender: Any) {
         handleCameraPermission()
     }
-    
     
     //MARK: VARS
     var messageThatAppJustWorkWithCameraPermissionAlreadyShow = false
@@ -35,14 +33,13 @@ class StartViewController: UIViewController {
                 if granted == true {
                     self.goToCameraViewController()
                 } else {
-                    
                     if self.messageThatAppJustWorkWithCameraPermissionAlreadyShow {
+                        /** forwarding to device settings */
                         Tools.openSettingsOfUsersIphoneToSetCameraPermisson()
                     } else {
-                        
                         self.messageThatAppJustWorkWithCameraPermissionAlreadyShow = true
-                        self.getCameraPermissionButton.setTitle("Zum Fotobereich", for: .normal)
-                        
+                     
+                        /** show error */
                         if let vc = self.storyboard?.instantiateViewController(withIdentifier: messageScreenViewControllerIdent) as? MessageScreenViewController {
                             vc.text = noCameraPermissionError
                             
@@ -50,11 +47,7 @@ class StartViewController: UIViewController {
                                 Tools.displayContentController(partentViewController: self, childViewController: vc)
                             }
                         }
-                        
                     }
-                    
-                    
-                    
                 }
             })
         }
@@ -68,15 +61,13 @@ class StartViewController: UIViewController {
         }
     }
     
+    /** loads data from session before */
     func fillGlobalArraysWithSavedData() {
        
         let numberOfImages = UserDefaults.standard.integer(forKey: numberOfImagesKey)+1
         
         for i in 1..<numberOfImages {
-            print("LOAD keyImage: \(i)_img, keyFaceId: \(i)_faceId")
             if let (image,faceId) = Tools.loadImageAndFaceId(keyImage: "\(i)_img", keyFaceId: "\(i)_faceId") {
-                print("LOADED")
-                
                 authorizedFaceIdsGlobalArray.append(faceId)
                 authorizedImagesGlobalArray.append(image)
             }

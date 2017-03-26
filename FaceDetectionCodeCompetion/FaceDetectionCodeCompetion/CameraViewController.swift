@@ -12,11 +12,9 @@ import AVFoundation
 import EZLoadingActivity
 
 
-
 class CameraViewController: UIViewController {
     
-    //MARK: UI ELEMENTS
-    /** */
+    /** MARK: UI ELEMENTS */
     @IBOutlet weak var createdImageImageView: UIImageView!
     @IBOutlet weak var isFirstVisitUnderstandInfoButton: UIButton!
     @IBOutlet weak var isFirstVisitInfoLabel: UILabel!
@@ -30,30 +28,31 @@ class CameraViewController: UIViewController {
     
     @IBOutlet weak var showCountOfAuthorizedImagesLabel: UILabel!
     @IBOutlet weak var backButton: UIButton!
+    
     //MARK: VARS
-    //Microsoft Api
+    
+    //init microsoft api
     let mpoFaceServiceClient = MPOFaceServiceClient(subscriptionKey: microsoftFaceDetectionApiKey)
     
     //authorized user
     var userWantToLoginFaceIds:[String] = []
     
-    
-    //camera
+    //camera specific vars
     let captureSession = AVCaptureSession()
     var captureDevice:AVCaptureDevice!
     var tookPhotoAutomatically = false
-    var temporarySavedImage:UIImage?
     
+    //save token image by user
+    var temporarySavedImage:UIImage?
     
     var firstInfoScreenWasRead = false
     
-    
+    /** default state */
     var state = State.login
     
     /** needs toogles */
     var isLoggedIn = false
     var authorizeUser = false
-    
     
     var _uploadQueue:[UIImage] = []
     var uploadQueue:[UIImage] {
@@ -74,20 +73,18 @@ class CameraViewController: UIViewController {
     }
     
     
+    /** remove value from upload queue */
     func removeValueFromUploaQueue(number: Int) {
         if uploadQueue.count > number {
             uploadQueue.remove(at: number)
         }
     }
     
+    /** start upload - it's recursive */
     func upload(number: Int) {
         if number < uploadQueue.count {
-            
             authorizeImageOfUser(image: uploadQueue[number]) { (successFullUpload) in
-                
-                if self.uploadQueue.count == 0 {
-                    print("upload finished")
-                } else {
+                if self.uploadQueue.count > 0 {
                     self.removeValueFromUploaQueue(number: number)
                     self.upload(number: number)
                     self.updateUI()
@@ -97,13 +94,12 @@ class CameraViewController: UIViewController {
             uploadQueue = []
             EZLoadingActivity.hide()
         }
-        
     }
     
+    /** add image to uploadQueue */
     @IBAction func takeImageButtonAction(_ sender: Any) {
         if let image = temporarySavedImage {
-         
-       
+    
             uploadQueue.append(image)
             
             if state == .login {
@@ -127,12 +123,13 @@ class CameraViewController: UIViewController {
         hideDecisionPanel()
     }
     
+    /** dont take photo so let it die 🌚*/
     @IBAction func dontTakeImageButtonAction(_ sender: Any) {
         hideDecisionPanel()
     }
     
+    /** login when enough images are in storage for authentification  */
     @IBAction func authorizeUserButtonAction(_ sender: Any) {
-        
         if authorizedFaceIdsGlobalArray.count > 4 && state == State.login {
             isLoggedIn = true
             EZLoadingActivity.show(checkFaceMessage, disableUI: true)
@@ -141,9 +138,7 @@ class CameraViewController: UIViewController {
         }
     }
     
-    
-    
-    
+    /** init camera */
     func prepareCamera() {
         captureSession.sessionPreset = AVCaptureSessionPresetPhoto
         
@@ -154,6 +149,7 @@ class CameraViewController: UIViewController {
         
     }
     
+    /** ios camera stuff */
     func beginSession () {
         do {
             let captureDeviceInput = try AVCaptureDeviceInput(device: captureDevice)
@@ -188,7 +184,9 @@ class CameraViewController: UIViewController {
     }
     
     
-    func checkLogin(forImage: UIImage) {
+    //MARK: MICROSOFT API FUNCTIONS
+    /** if image of user is valid, start compareImageFromUserWithAuthorizedImages  */
+    func checkValidationOfLoginImage(forImage: UIImage) {
         
         let dataOfUserWhoWantsLogin = UIImageJPEGRepresentation(forImage, 1)
         
@@ -211,7 +209,7 @@ class CameraViewController: UIViewController {
                 Tools.showMessage(text: responseMessage, parentViewController: self)
             } else {
                 if detectFace == true {
-                    self.checkUser()
+                    self.compareImageFromUserWithAuthorizedImages()
                 } else {
                     responseMessage = noFaceDetectedError
                 }
@@ -224,13 +222,7 @@ class CameraViewController: UIViewController {
         
     }
     
-    
-    
-    
-    
-    
-    
-    
+    /** save valid image for image management and face id for later login  */
     func authorizeImageOfUser(image: UIImage, completion: @escaping (_ success:Bool) -> Void) {
         
         let imageToData = UIImageJPEGRepresentation(image,1)
@@ -273,14 +265,19 @@ class CameraViewController: UIViewController {
                 }
             }
             
-            completion(detectFace)
-            EZLoadingActivity.hide()
-            Tools.showMessage(text: responseMessage, parentViewController: self)
+            if self.uploadQueue.count == 1 {
+                completion(detectFace)
+                EZLoadingActivity.hide()
+                Tools.showMessage(text: responseMessage, parentViewController: self)
+            } else {
+                self.showUploadQueueState()
+            }
         })
     }
     
     
-    func checkUser() {
+    /** hmmm compare image from user with authorized images 😇*/
+    func compareImageFromUserWithAuthorizedImages() {
         
         mpoFaceServiceClient?.findSimilar(withFaceId: userWantToLoginFaceIds[userWantToLoginFaceIds.count-1], faceIds: authorizedFaceIdsGlobalArray, completionBlock: { (similarFaces, error) in
             
@@ -353,7 +350,7 @@ class CameraViewController: UIViewController {
             }
         }
     }
-    
+    /** hide take / don't take image */
     func hideDecisionPanel() {
         temporarySavedImage = nil
         dontTakeImageButton.isHidden = true
@@ -361,6 +358,22 @@ class CameraViewController: UIViewController {
         createdImageImageView.isHidden = true
     }
     
+    /** show how many items are in upload queue */
+    func showUploadQueueState() {
+        showCountOfAuthorizedImagesLabel.alpha = 1.0
+        showCountOfAuthorizedImagesLabel.isHidden = false
+        
+        showCountOfAuthorizedImagesLabel.text = "\(self.uploadQueue.count)"
+       
+        UIView.animate(withDuration: 0.5, animations: {
+            self.showCountOfAuthorizedImagesLabel.alpha = 0.0
+        }, completion: { (finished) in
+            self.showCountOfAuthorizedImagesLabel.isHidden = true
+            self.showCountOfAuthorizedImagesLabel.alpha = 1.0
+        })
+    }
+    
+    /** show how many items are in upload queue */
     func showCountOfSavedImagesLocally() {
         showCountOfAuthorizedImagesLabel.alpha = 1.0
         showCountOfAuthorizedImagesLabel.isHidden = false
@@ -403,6 +416,7 @@ class CameraViewController: UIViewController {
 
 extension CameraViewController : AVCaptureVideoDataOutputSampleBufferDelegate{
     
+    /** reading camera output stream */
     func captureOutput(_ captureOutput: AVCaptureOutput!, didOutputSampleBuffer sampleBuffer: CMSampleBuffer!, from connection: AVCaptureConnection!) {
         
         
@@ -426,13 +440,13 @@ extension CameraViewController : AVCaptureVideoDataOutputSampleBufferDelegate{
             isLoggedIn = false
             
             if let image = getImageFromSampleBuffer(buffer: sampleBuffer) {
-                checkLogin(forImage: image)
+                checkValidationOfLoginImage(forImage: image)
             }
             
         }
     }
     
-    
+    /** get single image */
     func getImageFromSampleBuffer(buffer:CMSampleBuffer) -> UIImage? {
         if let pixelBuffer = CMSampleBufferGetImageBuffer(buffer) {
             let ciImage = CIImage(cvPixelBuffer: pixelBuffer)
@@ -456,6 +470,7 @@ extension CameraViewController : AVCaptureVideoDataOutputSampleBufferDelegate{
         return nil
     }
     
+    /** has to be called after ending with camera */
     func stopCaptureSession () {
         self.captureSession.stopRunning()
         
@@ -471,11 +486,8 @@ extension CameraViewController : AVCaptureVideoDataOutputSampleBufferDelegate{
 
 extension CameraViewController {
     
-    
-    
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.navigationBar.isHidden = true
-        
         prepareCamera()
         updateUI()
         hasBackButton()
@@ -483,8 +495,6 @@ extension CameraViewController {
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-     
-        
         stopCaptureSession()
     }
     

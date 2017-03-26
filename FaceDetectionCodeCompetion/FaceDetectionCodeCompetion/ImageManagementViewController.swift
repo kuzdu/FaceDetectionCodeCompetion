@@ -24,14 +24,15 @@ class ImageManagementViewController: UIViewController {
             navigationController?.pushViewController(vc, animated: true)
         }
     }
-    
+  
+    //MARK: INNER LOGIC
     func dismissImage(tapGestureRecognizer: UITapGestureRecognizer) {
         if let tappedImage = tapGestureRecognizer.view as? UIImageView {
             tappedImage.removeFromSuperview()
         }
     }
     
-    //MARK: INNER LOGIC
+    /** show image to full size by tap */
     func showImageByTap(_ image: UIImage, view: UIView) {
         let newImageView = UIImageView(frame:CGRect(x: 0,y: 0, width: view.frame.width, height: view.frame.height))
         newImageView.autoresizingMask = [.flexibleBottomMargin,.flexibleHeight,.flexibleRightMargin,.flexibleLeftMargin,.flexibleTopMargin,.flexibleWidth]
@@ -45,6 +46,8 @@ class ImageManagementViewController: UIViewController {
         view.addSubview(newImageView)
     }
     
+    
+    /** configuration of table view */
     func configureTableView() {
         tableView.delegate = self
         tableView.dataSource = self
@@ -65,27 +68,31 @@ extension ImageManagementViewController: UITableViewDelegate, UITableViewDataSou
         return authorizedImagesGlobalArray.count
     }
     
+    
+    /** show all uploaded images */
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         if let cell = tableView.dequeueReusableCell(withIdentifier: imageManagementCellIdent) as? ImageAndTwoButtonsTableViewCell {
             
-            
+            //show images
             if authorizedImagesGlobalArray.count > indexPath.row {
                 cell.imageView?.image = authorizedImagesGlobalArray[indexPath.row]
             }
             
+            //show image in a big size
             cell.tapImageCallBack = {
                 if authorizedImagesGlobalArray.count > indexPath.row {
                     self.showImageByTap(authorizedImagesGlobalArray[indexPath.row], view: self.view)
                 }
             }
             
+            //show delete images
             cell.deleteCallBack = {
                 if authorizedImagesGlobalArray.count > indexPath.row && authorizedImagesGlobalArray.count != 1 {
                    
                     authorizedImagesGlobalArray.remove(at: indexPath.row)
                     authorizedFaceIdsGlobalArray.remove(at: indexPath.row)
-                    print("remove faceId and image at indexPath.row \(indexPath.row)")
+                  
                     //need plus 1: when the keys will be save the counter starts with 1, row counter begin with 0
                     Tools.removeImageAndFaceId(keyImage: "\(indexPath.row+1)_img", keyFaceId: "\(indexPath.row+1)_faceId")
                     

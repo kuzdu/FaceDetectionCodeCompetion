@@ -11,9 +11,10 @@ import Foundation
 
 
 /**
- two states
- login = take image and login with that
- authorisation = fill array with images
+ two states for CameraViewController
+
+ login: has some other UI interactions and images are saving in a queue for upload
+ authorisation: one image = one upload
  */
 
 enum State : String {
